@@ -1,13 +1,16 @@
 package metier;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Catalogue implements I_Catalogue {
 
-	private List<Produit> lesProduits;
+	private ArrayList<I_Produit> lesProduits;
 
 	public Catalogue() {
-		this.lesProduits = null;
+		this.lesProduits = new ArrayList<I_Produit>();
 	}
 
 	/** On ajoute un objet produit au catalogue s'il n'existe pas déjà. 
@@ -15,8 +18,8 @@ public class Catalogue implements I_Catalogue {
 	 @return Vrai si l'ajout à reussi. */
 	@Override
 	public boolean addProduit(I_Produit produit) {
-		if (this.existe(produit)){
-			throw new SecurityException("Produit existe déjà.");
+		if (this.existe(produit) || !(this.check(produit))){
+			return false;
 		}
 		else {
 			this.lesProduits.add(new Produit(produit.getNom(), produit.getPrixUnitaireHT(), produit.getQuantite()));
@@ -26,6 +29,7 @@ public class Catalogue implements I_Catalogue {
 
 	/** Ré-utilise la methode addProduit(Produit) pour ajouter un produit qu'on créé. */
 	public boolean addProduit(String nom, double prix, int qte) {
+		nom = nom.replace(" ","");
 		Produit produit = new Produit(nom, prix, qte);
 		return this.addProduit(produit);
 	}
@@ -42,19 +46,42 @@ public class Catalogue implements I_Catalogue {
 		}
 		return false;
 	}
+	
+	public boolean check(I_Produit produit){
+		if(produit == null || produit.getPrixUnitaireHT()<=0 || produit.getQuantite() < 0){
+			return false;
+		}else{
+			return true;
+		}
+		
+	}
+
+	/** Methode pour arrondir à deux chiffres apres la virgule.
+	 * @param valeur : valeur qu'on veut arrondir. */
+	public static double arrondir(double valeur) {
+		BigDecimal bd = new BigDecimal(valeur);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+
 
 	/** Ajoute le produit s'il n'est pas déjà présent dans notre liste. 
 	 * @param l : Liste d'objets de type Produit à ajouter.
 	 * @return Le nombre de produits effectivement ajouté. */
 	public int addProduits(List<I_Produit> l) {
-		int existants = 0;
-		for (int i=0; i < l.size() ; i++){
-			if (!existe(l.get(i))){
-				existants++;
-				this.addProduit(l.get(i));
+		if (l == null){
+			return 0;
+		} else {
+			int existants = 0;
+			for (int i=0; i < l.size() ; i++){
+				if (!existe(l.get(i)) ){
+					if (this.addProduit(l.get(i))){
+						existants++;
+					}
+				}
 			}
+			return existants;	
 		}
-		return existants;
 	}
 
 	/** Enlève le produit du catalogue. 
@@ -62,13 +89,17 @@ public class Catalogue implements I_Catalogue {
 	 * @return Vrai si le produit existe et a été supprimé, Faux sinon. */
 	@Override
 	public boolean removeProduit(String nom) {
-		for (int i=0; i < this.lesProduits.size(); i++){
-			if (this.lesProduits.get(i).getNom() == nom){
-				this.lesProduits.remove(i);
-				return true;
+		if (nom == null){
+			return false;
+		} else {
+			for (int i=0; i < this.lesProduits.size(); i++){
+				if (this.lesProduits.get(i).getNom() == nom){
+					this.lesProduits.remove(i);
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	/** Met à jour le stock d'un produit de notre catalogue.
@@ -79,8 +110,9 @@ public class Catalogue implements I_Catalogue {
 	public boolean acheterStock(String nomProduit, int qteAchetee) {
 		for (int i=0; i < this.lesProduits.size(); i++){
 			if (this.lesProduits.get(i).getNom() == nomProduit){
-				this.lesProduits.get(i).ajouter(qteAchetee);
-				return true;
+				if (this.lesProduits.get(i).ajouter(qteAchetee)){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -94,8 +126,9 @@ public class Catalogue implements I_Catalogue {
 	public boolean vendreStock(String nomProduit, int qteVendue) {
 		for (int i=0; i < this.lesProduits.size(); i++){
 			if (this.lesProduits.get(i).getNom() == nomProduit){
-				this.lesProduits.get(i).enlever(qteVendue);
-				return true;
+				if(this.lesProduits.get(i).enlever(qteVendue)){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -121,7 +154,7 @@ public class Catalogue implements I_Catalogue {
 			stringBuilder.append("\n");
 		}
 		stringBuilder.append("\n");
-		stringBuilder.append("Montant total TTC du stock : " + this.getMontantTotalTTC() + "€");
+		stringBuilder.append("Montant total TTC du stock : " + Catalogue.arrondir(this.getMontantTotalTTC()) + "€");
 		return stringBuilder.toString();
 	}
 
@@ -138,6 +171,10 @@ public class Catalogue implements I_Catalogue {
 	@Override
 	public void clear() {
 		this.lesProduits.clear();
+	}
+
+	public ArrayList<I_Produit> getLesProduits() {
+		return lesProduits;
 	}
 
 }

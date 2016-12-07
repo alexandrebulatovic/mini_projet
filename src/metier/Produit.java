@@ -13,21 +13,16 @@ public class Produit implements I_Produit {
 	 * @param quantiteStock : quantite en stock du produit
 	 */
 	public Produit(String nom, double prixUnitaireHT, int quantiteStock) {
-		if (quantiteStock < 0){
-			throw new SecurityException("Quantite négative.");
-		} else {
-
 			this.quantiteStock = quantiteStock;
 			this.nom = nom;
 			this.prixUnitaireHT = prixUnitaireHT;
 		}
-	}
 
 	/** On met à jour le stock d'un produit (ajout) */
 	@Override
 	public boolean ajouter(int qteAchetee) {
 		if (qteAchetee < 0){
-			throw new SecurityException("Valeur négative.");
+			return false;
 		} else {		
 			this.quantiteStock+=qteAchetee;
 			return true;
@@ -37,33 +32,33 @@ public class Produit implements I_Produit {
 	/** On met à jour le stock d'un produit (retrait) */
 	@Override
 	public boolean enlever(int qteVendue) {
-		if (qteVendue > this.quantiteStock){
-			throw new SecurityException("Stock insuffisant.");
+		if (qteVendue > this.quantiteStock || qteVendue == 0){
+			return false;
 		} else {		
 			this.quantiteStock-=qteVendue;
 			return true;
 		}
 
 	}
-
+	
 	/** Accesseur du nom.  */
 	@Override
 	public String getNom() {
 		return this.nom;
 	}
-	
+
 	/** Accesseur de la quantite.  */
 	@Override
 	public int getQuantite() {
 		return this.quantiteStock;
 	}
-	
+
 	/** Accesseur du prix HT.  */
 	@Override
 	public double getPrixUnitaireHT() {
 		return this.prixUnitaireHT;
 	}
-	
+
 	/** Accesseur du prix TTC.  */
 	@Override
 	public double getPrixUnitaireTTC() {
@@ -75,7 +70,7 @@ public class Produit implements I_Produit {
 	public double getPrixStockTTC() {
 		return (this.getPrixUnitaireTTC()*this.quantiteStock);
 	}
-	
+
 	/** Methode d'affichage respectant le format demandé.  */
 	@Override
 	public String toString() {

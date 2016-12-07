@@ -1,4 +1,5 @@
 package metier;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface I_Catalogue {
@@ -12,7 +13,7 @@ public interface I_Catalogue {
 	public abstract String[] getNomProduits();
 	public abstract double getMontantTotalTTC();
 	public abstract String toString();
-
+	public ArrayList<I_Produit> getLesProduits();
 	public abstract void clear();
 
 }
