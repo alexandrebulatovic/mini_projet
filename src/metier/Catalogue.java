@@ -2,7 +2,9 @@ package metier;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Catalogue implements I_Catalogue {
@@ -28,8 +30,8 @@ public class Catalogue implements I_Catalogue {
 	}
 
 	/** Ré-utilise la methode addProduit(Produit) pour ajouter un produit qu'on créé. */
+	@Override
 	public boolean addProduit(String nom, double prix, int qte) {
-		nom = nom.replace(" ","");
 		Produit produit = new Produit(nom, prix, qte);
 		return this.addProduit(produit);
 	}
@@ -40,32 +42,46 @@ public class Catalogue implements I_Catalogue {
 	 */
 	public boolean existe(I_Produit produit ) {
 		for (int i=0; i < lesProduits.size(); i++){
-			if (lesProduits.get(i).getNom() == produit.getNom()){
+			if (lesProduits.get(i).getNom().equals(produit.getNom())){
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
+	/** Methode personnelle pour vérifier les paramètres d'un produit.
+	 * @param produit : le produit à vérifier
+	 * @return Vrai si un produit est conforme
+	 */
 	public boolean check(I_Produit produit){
 		if(produit == null || produit.getPrixUnitaireHT()<=0 || produit.getQuantite() < 0){
 			return false;
 		}else{
 			return true;
 		}
-		
 	}
 
 	/** Methode pour arrondir à deux chiffres apres la virgule.
-	 * @param valeur : valeur qu'on veut arrondir. */
+	 * @param valeur : valeur qu'on veut arrondir. 
+	 * @return double : Valeur arrondie */
 	public static double arrondir(double valeur) {
 		BigDecimal bd = new BigDecimal(valeur);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
 
+	/** Methode pour formater les nombres avec deux chiffres apres la virgule.
+	 * @param valeur : valeur qu'on veut arrondir. 
+	 * @return string : valeur arrondie */
+	public static String formater(double valeur) {
+		DecimalFormat df = new DecimalFormat ( ) ; 
+		df.setMaximumFractionDigits ( 2 ) ;
+		df.setMinimumFractionDigits ( 2 ) ; 
+		df.setDecimalSeparatorAlwaysShown ( true ) ; 
+		return df.format(valeur);
+	}
 
-	/** Ajoute le produit s'il n'est pas déjà présent dans notre liste. 
+	/** Ajoute le produit s'il n'est pas déjà  présent dans notre liste. 
 	 * @param l : Liste d'objets de type Produit à ajouter.
 	 * @return Le nombre de produits effectivement ajouté. */
 	public int addProduits(List<I_Produit> l) {
@@ -142,6 +158,7 @@ public class Catalogue implements I_Catalogue {
 		for (int i = 0; i < taille; i++){
 			tab[i] = this.lesProduits.get(i).getNom();
 		}
+		Arrays.sort(tab);
 		return tab;
 	}
 
@@ -154,7 +171,7 @@ public class Catalogue implements I_Catalogue {
 			stringBuilder.append("\n");
 		}
 		stringBuilder.append("\n");
-		stringBuilder.append("Montant total TTC du stock : " + Catalogue.arrondir(this.getMontantTotalTTC()) + "€");
+		stringBuilder.append("Montant total TTC du stock : " + Catalogue.formater(this.getMontantTotalTTC()) + " €");
 		return stringBuilder.toString();
 	}
 
@@ -164,7 +181,7 @@ public class Catalogue implements I_Catalogue {
 		for (int i = 0; i < this.lesProduits.size(); i ++){
 			somme+= this.lesProduits.get(i).getPrixStockTTC();
 		}
-		return somme;
+		return Catalogue.arrondir(somme);
 	}
 
 	/**	Efface tous les objets du catalogue. */
@@ -172,7 +189,8 @@ public class Catalogue implements I_Catalogue {
 	public void clear() {
 		this.lesProduits.clear();
 	}
-
+	
+	/** @return la Liste des produits du catalogue. */
 	public ArrayList<I_Produit> getLesProduits() {
 		return lesProduits;
 	}

@@ -1,7 +1,9 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+import application.*;
 
 
 
@@ -66,7 +68,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
+		
 /* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
@@ -85,7 +87,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		if (e.getSource() == btSupprimerCategorie)
 //			new FenetreSuppressionCategorie(tabCategories);
 		if (e.getSource() == btAchat)
-			new FenetreAchat(tabProduits);
+			//new ControleurAchatsVentes(tabProduits,"Achat");
 		if (e.getSource() == btVente)
 			new FenetreVente(tabProduits);
 		if (e.getSource() == btQuitter){
