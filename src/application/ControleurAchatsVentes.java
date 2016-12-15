@@ -6,16 +6,26 @@ import metier.*;
 public class ControleurAchatsVentes {
 	private FenetreAchat fa;
 	private FenetreVente fv;
-	
+
 	private Catalogue cat;
-	
-	public ControleurAchatsVentes(Catalogue cat,String str){
+
+	public ControleurAchatsVentes(Catalogue cat){
 		this.cat=cat;	
-		if(str.equals("Achat")){
-			fa = new FenetreAchat(this.cat.getNomProduits());
-		}else if(str.equals("Vente")){
-			fv = new FenetreVente(this.cat.getNomProduits());
-		}
+
+	}
+
+	public String[] getNomProduits(){
+		return this.cat.getNomProduits();
+	}
+
+	public void acheterStock(String nom, int qte){
+		this.cat.acheterStock(nom, qte);
 	}
 	
+	public void vendreStock(String nom, int qte){
+		this.cat.vendreStock(nom, qte);
+	}
+
+
+
 }

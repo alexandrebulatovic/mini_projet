@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import metier.Catalogue;
 import application.*;
 
 
@@ -19,8 +21,17 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btVente;
 	private JButton btQuitter;
 
+	private ControleurAchatsVentes cav;
+	private ControleurCatalogue cc;
+	private ControleurStocks cs;
+	private ControleurPrincipal cp;
 	
 	public FenetrePrincipale() {
+		
+		this.cp = new ControleurPrincipal();
+		this.cav = cp.getControleurAchatsVentes();
+		this.cc = cp.getControleurCatalogue();
+		this.cs = cp.getControleurStocks();
 		
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
@@ -76,20 +87,20 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if (e.getSource() == btAfficher)
-			new FenetreAffichage("ajourd'hui nous allons faire de la programmation en 5 couches");
+			new FenetreAffichage(this.cs.getStocksCatalogue());
 		if (e.getSource() == btNouveauProduit)
 //			new FenetreNouveauProduit(tabCategories);
-			new FenetreNouveauProduit();
+			new FenetreNouveauProduit(this.cc);
 		if (e.getSource() == btSupprimerProduit)
-			new FenetreSuppressionProduit(tabProduits);
+			new FenetreSuppressionProduit(this.cc,this.cc.getNomProduits());
 //		if (e.getSource() == btNouvelleCategorie)
 //			new FenetreNouvelleCategorie();
 //		if (e.getSource() == btSupprimerCategorie)
 //			new FenetreSuppressionCategorie(tabCategories);
 		if (e.getSource() == btAchat)
-			//new ControleurAchatsVentes(tabProduits,"Achat");
+			new FenetreAchat(this.cav,this.cav.getNomProduits());
 		if (e.getSource() == btVente)
-			new FenetreVente(tabProduits);
+			new FenetreVente(this.cav,this.cav.getNomProduits());
 		if (e.getSource() == btQuitter){
 			System.out.println("Au revoir");
 			System.exit(0);

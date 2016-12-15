@@ -1,7 +1,10 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import application.ControleurCatalogue;
 
 public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
@@ -10,10 +13,13 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	private JTextField txtQte;
 //	private JComboBox<String> combo;
 	private JButton btValider;
+	private ControleurCatalogue cc;
+	
 
 //	public FenetreNouveauProduit(String[] lesCategories) {
-	public FenetreNouveauProduit() {	
-
+	public FenetreNouveauProduit(ControleurCatalogue cc) {	
+		
+		this.cc = cc;
 		setTitle("Creation Produit");
 		setBounds(500, 500, 200, 250);
 		Container contentPane = getContentPane();
@@ -47,6 +53,10 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		String nomProduit = this.txtNom.getText();
+		double prixHT = Double.parseDouble(this.txtPrixHT.getText());
+		int qte = Integer.parseInt(this.txtQte.getText());
+		this.cc.addProduit(nomProduit, prixHT,qte);
 		this.dispose();
 	}
 

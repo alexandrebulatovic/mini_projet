@@ -1,16 +1,21 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import application.ControleurAchatsVentes;
 
 public class FenetreAchat extends JFrame implements ActionListener {
 
 	private JButton btAchat;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
+	private ControleurAchatsVentes cav;
 
-	public FenetreAchat(String[] lesProduits) {
+	public FenetreAchat(ControleurAchatsVentes cav, String[] lesProduits) {
 
+		this.cav = cav;
 		setTitle("Achat");
 		setBounds(500, 500, 200, 125);
 		Container contentPane = getContentPane();
@@ -33,6 +38,9 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		String produit = this.combo.getSelectedItem().toString();
+		int qte = Integer.parseInt(this.txtQuantite.getText());
+		this.cav.acheterStock(produit, qte);
 		this.dispose();
 	}
 

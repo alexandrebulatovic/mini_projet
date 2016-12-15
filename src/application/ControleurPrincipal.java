@@ -6,26 +6,37 @@ public class ControleurPrincipal {
 
 
 	private Catalogue catalogue;
-	private controleurProduits controller_produits;
+	private ControleurCatalogue controller_catalogue;
 	private ControleurAchatsVentes controller_av;
-	private controleurStocks controller_stocks;
+	private ControleurStocks controller_stocks;
 
 
 	/** Constructeur principal du programme avec un catalogue commun et les contrôleurs associés. */
 	public ControleurPrincipal() {
 		this.catalogue = new Catalogue();
-		this.controller_produits = new controleurProduits(this.catalogue);
-		this.controller_av = new ControleurAchatsVentes(this.catalogue, "Achat"); // rajouter "Achat" ou "Vente" en parametre
-		this.controller_stocks = new controleurStocks(this.catalogue);;
+		this.controller_catalogue = new ControleurCatalogue(this.catalogue);
+		this.controller_av = new ControleurAchatsVentes(this.catalogue); // rajouter "Achat" ou "Vente" en parametre
+		this.controller_stocks = new ControleurStocks(this.catalogue);
+	}
+
+	
+	public ControleurAchatsVentes getControleurAchatsVentes() {
+		return this.controller_av;
 	}
 
 
+	public ControleurCatalogue getControleurCatalogue() {
+		return this.controller_catalogue;
+	}
 
 
+	public ControleurStocks getControleurStocks() {
+		return this.controller_stocks;
+	}
 
+	
 	public static void main(String[] args) {
-		new ControleurPrincipal();
-		new FenetrePrincipale();
+		ControleurPrincipal c = new ControleurPrincipal();
+		FenetrePrincipale f = new FenetrePrincipale();
 	}
-
 }

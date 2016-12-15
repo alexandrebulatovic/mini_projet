@@ -1,15 +1,19 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import application.ControleurCatalogue;
 
 public class FenetreSuppressionProduit extends JFrame implements ActionListener {
 
 	private JButton btSupprimer;
 	private JComboBox<String> combo;
+	private ControleurCatalogue cc;
 	
-	public FenetreSuppressionProduit(String lesProduits[]) {
-		
+	public FenetreSuppressionProduit(ControleurCatalogue cc, String lesProduits[]) {
+		this.cc = cc;
 		setTitle("Suppression produit");
 		setBounds(500, 500, 200, 105);
 		Container contentPane = getContentPane();
@@ -28,6 +32,8 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		String nomProduit = this.combo.getSelectedItem().toString();
+		this.cc.removeProduit(nomProduit);
 		this.dispose();
 	}
 
