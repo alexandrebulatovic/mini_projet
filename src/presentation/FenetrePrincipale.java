@@ -21,7 +21,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btVente;
 	private JButton btQuitter;
 
-	private ControleurAchatsVentes cav;
+	
 	private ControleurCatalogue cc;
 	private ControleurStocks cs;
 	private ControleurPrincipal cp;
@@ -29,7 +29,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	public FenetrePrincipale() {
 		
 		this.cp = new ControleurPrincipal();
-		this.cav = cp.getControleurAchatsVentes();
 		this.cc = cp.getControleurCatalogue();
 		this.cs = cp.getControleurStocks();
 		
@@ -98,9 +97,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		if (e.getSource() == btSupprimerCategorie)
 //			new FenetreSuppressionCategorie(tabCategories);
 		if (e.getSource() == btAchat)
-			new FenetreAchat(this.cav,this.cav.getNomProduits());
+			new FenetreAchat(this.cc,this.cc.getNomProduits());
 		if (e.getSource() == btVente)
-			new FenetreVente(this.cav,this.cav.getNomProduits());
+			new FenetreVente(this.cc,this.cc.getNomProduits());
 		if (e.getSource() == btQuitter){
 			System.out.println("Au revoir");
 			System.exit(0);

@@ -9,7 +9,7 @@ public class ConnexionDAO
 
 	private static ConnexionDAO instance_connexion = null;
 
-	private Connection connexion;
+	public Connection connexion;
 
 
 	private ConnexionDAO() {
