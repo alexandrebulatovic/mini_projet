@@ -16,6 +16,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	private PreparedStatement pst;
 
+	
 	public ProduitDAO_SQL()
 	{}
 
@@ -32,10 +33,9 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		this.conn.fermerConnexion();
 	}
-	public List<I_Produit> read(){
+	
+	public List<I_Produit> findAll(){
 		this.conn = ConnexionDAO.getInstance();
 		String sql = "SELECT * FROM Produits";
 		Statement state;
@@ -50,14 +50,13 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 			}
 			result.close();
 			state.close();
-			this.conn.fermerConnexion();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return produits;
 	}
-	
+
 	public void updateQuantité(String nom,int value){
 		this.conn = ConnexionDAO.getInstance();
 		String sql = "UPDATE Produits SET quantite = quantite + ? WHERE nom = ?";
@@ -69,9 +68,8 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		this.conn.fermerConnexion();
 	}
-	
+
 	public void updateProduit(I_Produit p){
 		this.conn = ConnexionDAO.getInstance();
 		String sql = "UPDATE Produits SET quantite = quantite + ? WHERE nom = ?";
@@ -83,9 +81,8 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		this.conn.fermerConnexion();
 	}
-	
+
 	public void delete(String nom) {
 		this.conn = ConnexionDAO.getInstance();
 		String sql = "DELETE FROM Produits WHERE nom = ?";
@@ -96,8 +93,30 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		this.conn.fermerConnexion();
+	}
 
+	@Override
+	public I_Produit findByName(String nom) {
+		this.conn = ConnexionDAO.getInstance();
+		String sql = "SELECT FROM Produits WHERE nom = ?";
+		Statement state = null;
+
+		I_Produit p = null;
+		try {
+			pst = conn.getConnexion().prepareStatement(sql);
+			pst.setString(1, nom);
+			ResultSet result = state.executeQuery(sql);
+			if (result.next())
+				p = new Produit(result.getString(1),result.getDouble(2),result.getInt(3));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return p;
+	}
+
+	/** Ferme la connexion à la base de données. */
+	public void disconnect() {
+		this.conn.fermerConnexion();
 	}
 
 

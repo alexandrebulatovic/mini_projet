@@ -26,7 +26,7 @@ public class AdaptateurXML implements I_ProduitDAO{
 	}
 
 	@Override
-	public List<I_Produit> read() {
+	public List<I_Produit> findAll() {
 		return this.dao.lireTous();
 	}
 
@@ -39,6 +39,12 @@ public class AdaptateurXML implements I_ProduitDAO{
 	public void updateProduit(I_Produit p) {
 		this.dao.maj(p);
 
+	}
+
+	@Override
+	public I_Produit findByName(String nom) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

@@ -9,15 +9,15 @@ public class ControleurPrincipal {
 
 
 	private Catalogue catalogue;
-	
+
 	private ControleurCatalogue controleur_catalogue;
-	
+
 	private ControleurStocks controleur_stocks;
-	
+
 	private ControleurAchatVente controleur_achat_vente;
-	
+
 	private I_ProduitDAO dao;
-	
+
 	private FactoryDAO factory;
 
 
@@ -39,12 +39,19 @@ public class ControleurPrincipal {
 		return this.controleur_stocks;
 	}
 
+	public ControleurAchatVente getControleurAchatVente() {
+		return this.controleur_achat_vente;
+	}
+
+
 	public static void main(String[] args) {
 		ControleurPrincipal c = new ControleurPrincipal();
 		FenetrePrincipale f = new FenetrePrincipale();
 	}
 
-	public ControleurAchatVente getControleurAchatVente() {
-		return this.controleur_achat_vente;
+	public void disconnect() {
+		if (this.dao instanceof ProduitDAO_SQL)
+			((ProduitDAO_SQL)this.dao).disconnect();
 	}
+
 }

@@ -39,7 +39,7 @@ public class ControleurCatalogue {
 	}
 
 	public void initialisterCatalogue() throws SQLException{
-		List<I_Produit> produits = this.dao.read();
+		List<I_Produit> produits = this.dao.findAll();
 		for(I_Produit p : produits){
 			this.cat.addProduit(p);
 		}
