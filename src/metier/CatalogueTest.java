@@ -1,4 +1,4 @@
-﻿package metier;
+package metier;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -806,7 +806,8 @@ public class CatalogueTest {
 			return new Produit(nom,prixHT,quantite);
 		}
 		catch (Exception e) { return null; }
-	}		
-
-
+	}
 }
+
+
+

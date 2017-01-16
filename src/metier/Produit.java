@@ -18,6 +18,16 @@ public class Produit implements I_Produit {
 		this.prixUnitaireHT = prixUnitaireHT;
 	}
 
+	/**
+	 * Génère un produit bidon pour l'adaptateur.
+	 * @param nom : 
+	 */
+	public Produit(String nom) {
+		this.nom = nom;
+		this.quantiteStock = 0;
+		this.prixUnitaireHT = 0;
+	}
+
 	/** On met à jour le stock d'un produit (ajout) */
 	@Override
 	public boolean ajouter(int qteAchetee) {

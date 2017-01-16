@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import application.ControleurAchatVente;
 import application.ControleurCatalogue;
 
 
@@ -13,11 +14,11 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	private JButton btAchat;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
-	private ControleurCatalogue cc;
+	private ControleurAchatVente cav;
 
-	public FenetreAchat(ControleurCatalogue cc, String[] lesProduits) {
+	public FenetreAchat(ControleurAchatVente cav, String[] lesProduits) {
 
-		this.cc = cc;
+		this.cav = cav;
 		setTitle("Achat");
 		setBounds(500, 500, 200, 125);
 		Container contentPane = getContentPane();
@@ -42,7 +43,7 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String produit = this.combo.getSelectedItem().toString();
 		int qte = Integer.parseInt(this.txtQuantite.getText());
-		this.cc.acheterStock(produit, qte);
+		this.cav.acheterStock(produit, qte);
 		this.dispose();
 	}
 

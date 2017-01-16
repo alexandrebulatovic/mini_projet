@@ -25,12 +25,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private ControleurCatalogue cc;
 	private ControleurStocks cs;
 	private ControleurPrincipal cp;
+	private ControleurAchatVente cav;
 	
 	public FenetrePrincipale() {
 		
 		this.cp = new ControleurPrincipal();
 		this.cc = cp.getControleurCatalogue();
 		this.cs = cp.getControleurStocks();
+		this.cav = cp.getControleurAchatVente();
 		
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
@@ -97,9 +99,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		if (e.getSource() == btSupprimerCategorie)
 //			new FenetreSuppressionCategorie(tabCategories);
 		if (e.getSource() == btAchat)
-			new FenetreAchat(this.cc,this.cc.getNomProduits());
+			new FenetreAchat(this.cav,this.cc.getNomProduits());
 		if (e.getSource() == btVente)
-			new FenetreVente(this.cc,this.cc.getNomProduits());
+			new FenetreVente(this.cav,this.cc.getNomProduits());
 		if (e.getSource() == btQuitter){
 			System.out.println("Au revoir");
 			System.exit(0);
