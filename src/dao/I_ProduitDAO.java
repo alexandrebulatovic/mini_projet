@@ -5,6 +5,11 @@ import java.util.List;
 import metier.I_Produit;
 import metier.Produit;
 
+/** Cette interface fournit des méthodes permettant de manipuler une base de donnees.
+ * 	<P>
+ *  Une classe correspondant à une nouvelle technologie de stockage devra implémenter cette 
+ *  interface pour continuer à stocker les données. */
+
 public interface I_ProduitDAO {
 
 	/** Crée un nouveau produit dans la base de données.
@@ -18,10 +23,10 @@ public interface I_ProduitDAO {
 	/** Génère une liste de tous les produits stockés dans la base de données.
 	 * @return la liste générée. */
 	public abstract List<I_Produit> findAll();
-	
+
 	/** Génère le produit demandé parmi ceux stockés dans la base de données.
 	 * @param nom : nom du produit stocké.
-	 * @return un objet {@code Produit} d'un produit existant. */
+	 * @return un objet {@code Produit} correspondant à un produit existant. */
 	public abstract I_Produit findByName(String nom);
 
 	/** Met à jour la quantité d'un produit.

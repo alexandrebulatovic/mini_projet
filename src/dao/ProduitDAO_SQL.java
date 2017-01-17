@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,44 +13,43 @@ import metier.Produit;
 
 public class ProduitDAO_SQL implements I_ProduitDAO {
 
-	private ConnexionDAO conn;
+	private Connection conn;
+	private PreparedStatement prepstat;
+	private Statement stat;
+	private ResultSet rs;
 
-	private PreparedStatement pst;
-
-	
+	/** Initialise une connexion à une base de données. */
 	public ProduitDAO_SQL()
-	{}
+	{
+		this.conn = ConnexionDAO.getInstance().getConnexion();
+	}
 
 	public void create(I_Produit p){
-		this.conn = ConnexionDAO.getInstance();
 		String sql = "INSERT INTO Produits(nom, prixHT, quantite) VALUES (?,?,?)";
 		try {
-			pst = conn.getConnexion().prepareStatement(sql);
-			pst.setString(1, p.getNom());
-			pst.setDouble(2, p.getPrixUnitaireHT());
-			pst.setInt(3, p.getQuantite());
-			pst.executeUpdate();
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setString(1, p.getNom());
+			prepstat.setDouble(2, p.getPrixUnitaireHT());
+			prepstat.setInt(3, p.getQuantite());
+			prepstat.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public List<I_Produit> findAll(){
-		this.conn = ConnexionDAO.getInstance();
 		String sql = "SELECT * FROM Produits";
-		Statement state;
-		ResultSet result = null;
 		List<I_Produit> produits = new ArrayList<I_Produit>();
 		try {
-			state = conn.connexion.createStatement();
-			result = state.executeQuery(sql);
-			while(result.next()){
-				Produit p = new Produit(result.getString(1),result.getDouble(2),result.getInt(3));
+			stat = this.conn.createStatement();
+			rs = stat.executeQuery(sql);
+			while(rs.next()){
+				Produit p = new Produit(rs.getString(1),rs.getDouble(2),rs.getInt(3));
 				produits.add(p);
 			}
-			result.close();
-			state.close();
+			rs.close();
+			stat.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -58,25 +58,23 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	}
 
 	public void updateProduit(I_Produit p){
-		this.conn = ConnexionDAO.getInstance();
 		String sql = "UPDATE Produits SET quantite = quantite + ? WHERE nom = ?";
 		try {
-			pst = conn.getConnexion().prepareStatement(sql);
-			pst.setInt(1, p.getQuantite());
-			pst.setString(2, p.getNom());
-			pst.executeUpdate();
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setInt(1, p.getQuantite());
+			prepstat.setString(2, p.getNom());
+			prepstat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void delete(String nom) {
-		this.conn = ConnexionDAO.getInstance();
 		String sql = "DELETE FROM Produits WHERE nom = ?";
 		try {
-			pst = conn.getConnexion().prepareStatement(sql);
-			pst.setString(1, nom);
-			pst.executeUpdate();
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setString(1, nom);
+			prepstat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,15 +82,14 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	@Override
 	public I_Produit findByName(String nom) {
-		this.conn = ConnexionDAO.getInstance();
 		String sql = "SELECT FROM Produits WHERE nom = ?";
-		Statement state = null;
 
 		I_Produit p = null;
+
 		try {
-			pst = conn.getConnexion().prepareStatement(sql);
-			pst.setString(1, nom);
-			ResultSet result = state.executeQuery(sql);
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setString(1, nom);
+			ResultSet result = prepstat.executeQuery(sql);
 			if (result.next())
 				p = new Produit(result.getString(1),result.getDouble(2),result.getInt(3));
 		} catch (SQLException e) {
@@ -103,7 +100,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	/** Ferme la connexion à la base de données. */
 	public void disconnect() {
-		this.conn.fermerConnexion();
+		ConnexionDAO.fermerConnexion();
 	}
 
 
