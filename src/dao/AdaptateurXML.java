@@ -31,11 +31,6 @@ public class AdaptateurXML implements I_ProduitDAO{
 	}
 
 	@Override
-	public void updateQuantité(String nom, int value) {
-		
-	}
-
-	@Override
 	public void updateProduit(I_Produit p) {
 		this.dao.maj(p);
 
@@ -43,8 +38,7 @@ public class AdaptateurXML implements I_ProduitDAO{
 
 	@Override
 	public I_Produit findByName(String nom) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dao.lire(nom);
 	}
 
 

@@ -27,7 +27,7 @@ public interface I_ProduitDAO {
 	/** Met à jour la quantité d'un produit.
 	 * @param nom : nom du produit à mettre à jour.
 	 * @param qte : nouvelle quantité. */
-	public abstract void updateQuantité(String nom, int qte);
+	//public abstract void updateQuantité(String nom, int qte);
 
 	/** Met à jour un produit de la base de données..
 	 * @param p : {@code Produit} avec les informations à jour. */

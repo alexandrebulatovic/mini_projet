@@ -57,19 +57,6 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		return produits;
 	}
 
-	public void updateQuantité(String nom,int value){
-		this.conn = ConnexionDAO.getInstance();
-		String sql = "UPDATE Produits SET quantite = quantite + ? WHERE nom = ?";
-		try {
-			pst = conn.getConnexion().prepareStatement(sql);
-			pst.setInt(1, value);
-			pst.setString(2, nom);
-			pst.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void updateProduit(I_Produit p){
 		this.conn = ConnexionDAO.getInstance();
 		String sql = "UPDATE Produits SET quantite = quantite + ? WHERE nom = ?";
