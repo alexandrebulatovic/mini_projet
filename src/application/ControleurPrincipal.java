@@ -11,10 +11,8 @@ public class ControleurPrincipal {
 	private Catalogue catalogue;
 
 	private ControleurCatalogue controleur_catalogue;
-
-	private ControleurStocks controleur_stocks;
-
-	private ControleurAchatVente controleur_achat_vente;
+	private ControleurStocks controleur_stock;
+	private ControleurAchatVente controleur_achats_ventes;
 
 	private I_ProduitDAO dao;
 
@@ -27,20 +25,20 @@ public class ControleurPrincipal {
 		this.factory = new FactoryDAO();
 		this.dao = factory.createDAO();
 		this.controleur_catalogue = new ControleurCatalogue(this.catalogue, this.dao);
-		this.controleur_stocks = new ControleurStocks(this.catalogue,this.dao);
-		this.controleur_achat_vente = new ControleurAchatVente(this.catalogue, this.dao);
+		this.controleur_stock = new ControleurStocks(this.catalogue, this.dao);
+		this.controleur_achats_ventes = new ControleurAchatVente(this.catalogue, this.dao);
 	}
 
 	public ControleurCatalogue getControleurCatalogue() {
 		return this.controleur_catalogue;
 	}
 
-	public ControleurStocks getControleurStocks() {
-		return this.controleur_stocks;
+	public ControleurStocks getControleurStock() {
+		return this.controleur_stock;
 	}
 
-	public ControleurAchatVente getControleurAchatVente() {
-		return this.controleur_achat_vente;
+	public ControleurAchatVente getControleurAchatsVentes() {
+		return this.controleur_achats_ventes;
 	}
 
 

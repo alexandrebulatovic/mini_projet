@@ -13,7 +13,7 @@ import org.jdom.output.*;
 
 
 public class ProduitDAO_XML {
-	private String uri = "/home/licence/maurya/Produits.xml";
+	private String uri = "Produits.xml"; // fichier a placer dans le dossier du mini projet
 	private Document doc;
 
 	public ProduitDAO_XML() {
@@ -84,6 +84,7 @@ public class ProduitDAO_XML {
 		List<I_Produit> l = new ArrayList<I_Produit>();
 		try {
 			Element root = doc.getRootElement();
+			@SuppressWarnings("unchecked")
 			List<Element> lProd = root.getChildren("produit");
 
 			for (Element prod : lProd) {
@@ -112,6 +113,7 @@ public class ProduitDAO_XML {
 
 	private Element chercheProduit(String nom) {
 		Element root = doc.getRootElement();
+		@SuppressWarnings("unchecked")
 		List<Element> lProd = root.getChildren("produit");
 		int i = 0;
 		while (i < lProd.size() && !lProd.get(i).getAttributeValue("nom").equals(nom))

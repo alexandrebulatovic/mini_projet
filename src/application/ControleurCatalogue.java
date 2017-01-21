@@ -9,17 +9,16 @@ import dao.I_ProduitDAO;
 import dao.ProduitDAO_SQL;
 import metier.*;
 
+/**
+ * Correspond au scenario "Creer ou Supprimer un produit".
+ */
 public class ControleurCatalogue {
 	private Catalogue cat;
 	private I_ProduitDAO dao;
 	public ControleurCatalogue(Catalogue cat,I_ProduitDAO dao){
 		this.cat = cat;
 		this.dao = dao;
-		try {
-			this.initialisterCatalogue();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.initialiseCatalogue();
 	}
 
 	public void addProduit(String nom, double prix, int qte) {
@@ -38,7 +37,11 @@ public class ControleurCatalogue {
 		this.dao.delete(nom);
 	}
 
-	public void initialisterCatalogue() throws SQLException{
+	/**
+	 * Initialise le {@code Catalogue} à partir des données persistantes.
+	 * @see Catalogue
+	 */
+	public void initialiseCatalogue() {
 		List<I_Produit> produits = this.dao.findAll();
 		for(I_Produit p : produits){
 			this.cat.addProduit(p);

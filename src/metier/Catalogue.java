@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Conteneur pour les {@code Produit}.
+ * <P>
+ * Contient des méthodes de manipulation des données de chaque {@code Produit}.
+ * @see I_Produit
+ */
 public class Catalogue implements I_Catalogue {
 
 	private ArrayList<I_Produit> lesProduits;
@@ -189,7 +195,7 @@ public class Catalogue implements I_Catalogue {
 	public void clear() {
 		this.lesProduits.clear();
 	}
-	
+
 	/** @return la Liste des produits du catalogue. */
 	public ArrayList<I_Produit> getLesProduits() {
 		return lesProduits;
