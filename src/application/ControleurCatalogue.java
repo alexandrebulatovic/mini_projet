@@ -26,7 +26,7 @@ public class ControleurCatalogue {
 	/* METHODES */
 
 	/**
-	 * Remplit le {@code Catalogue}.
+	 * Initialise le {@code Catalogue} avec les produits enregistrés.
 	 * @param catalogue : {@code Catalogue} à utiliser.
 	 * @param dao : {@code ProduitDAO} à utiliser pour obtenir les produits.
 	 */
@@ -36,33 +36,47 @@ public class ControleurCatalogue {
 		this.remplirCatalogue();
 	}
 
-	public void addProduit(String nom, double prix, int qte) {
+	/**
+	 * Ajoute un produit au {@code Catalogue}.
+	 * @param nom : nom du produit.
+	 * @param prix : prix hors taxe du produit.
+	 * @param qte : quantité en stock du produit.
+	 */
+	public void addProduit(String nom, double prix, int qte) 
+	{
 		Produit p = new Produit(nom, prix, qte);
-		this.catalogue.addProduit(p);
-		this.dao.create(p);
 
-	}
-
-	public String[] getNomProduits(){
-		return this.catalogue.getNomProduits();
-	}
-
-	public void removeProduit(String nom){
-		this.catalogue.removeProduit(nom);
-		this.dao.delete(nom);
+		if (this.catalogue.addProduit(p))
+			this.dao.create(p);
 	}
 
 	/**
-	 * Remplit le {@code Catalogue} à partir des données persistantes.
+	 * Supprime un produit du {@code Catalogue}.
+	 * @param nom : nom du produit à supprimer.
+	 */
+	public void removeProduit(String nom)
+	{
+		if (this.catalogue.removeProduit(nom))
+			this.dao.delete(nom);
+	}
+
+	/**
+	 * Remplit le catalogue à partir des données persistantes.
 	 * @see Catalogue
 	 */
 	public void remplirCatalogue() {
-		List<I_Produit> produits = this.dao.findAll();
-		for(I_Produit p : produits){
-			this.catalogue.addProduit(p);
-		}
+		List<I_Produit> listeProduits = this.dao.findAll();
 
+		this.catalogue.addProduits(listeProduits);
 	}
 
+	/**
+	 * Permet d'obtenir un tableau de tous les noms des produits
+	 * du catalogue.
+	 * @return un tableau de {@code String}.
+	 */
+	public String[] getNomProduits(){
+		return this.catalogue.getNomProduits();
+	}
 
 }

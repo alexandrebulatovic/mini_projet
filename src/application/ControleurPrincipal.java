@@ -2,10 +2,8 @@ package application;
 
 import dao.DAOFactory;
 import dao.I_ProduitDAO;
-import dao.ProduitDAO_SQL;
 import metier.Catalogue;
 import metier.I_Catalogue;
-import presentation.FenetrePrincipale;
 
 /**
  * Cette classe permet d'initialiser le programme.

@@ -10,17 +10,21 @@ import java.util.List;
 /**
  * Conteneur pour les {@code Produit}.
  * <P>
- * Contient des méthodes de manipulation des données de chaque {@code Produit}.
+ * Contient des méthodes de manipulation de données de chaque {@code Produit}.
  * @see I_Produit
+ * @see I_Catalogue
  */
 public class Catalogue implements I_Catalogue {
 
+	/* ATTRIBUTS */
+
 	private List<I_Produit> lesProduits;
+
+	/* METHODES */
 
 	public Catalogue() {
 		this.lesProduits = new ArrayList<I_Produit>();
 	}
-
 
 	@Override
 	public boolean addProduit(I_Produit produit) {
@@ -40,11 +44,27 @@ public class Catalogue implements I_Catalogue {
 		return this.addProduit(produit);
 	}
 
+	public int addProduits(List<I_Produit> l) {
+		if (l == null){
+			return 0;
+		} else {
+			int existants = 0;
+			for (int i=0; i < l.size() ; i++){
+				if (!existe(l.get(i)) ){
+					if (this.addProduit(l.get(i))){
+						existants++;
+					}
+				}
+			}
+			return existants;	
+		}
+	}
+
 	/** Methode personnelle pour simplifier les tests sur l'existence des produits.
 	 * @param produit : le produit à comparer avec la liste
 	 * @return Vrai si un produit existe déjà, Faux sinon
 	 */
-	public boolean existe(I_Produit produit ) {
+	private boolean existe(I_Produit produit ) {
 		for (int i=0; i < lesProduits.size(); i++){
 			if (lesProduits.get(i).getNom().equals(produit.getNom())){
 				return true;
@@ -85,28 +105,7 @@ public class Catalogue implements I_Catalogue {
 		return df.format(valeur);
 	}
 
-	/** Ajoute le produit s'il n'est pas déjà  présent dans notre liste. 
-	 * @param l : Liste d'objets de type Produit à ajouter.
-	 * @return Le nombre de produits effectivement ajouté. */
-	public int addProduits(List<I_Produit> l) {
-		if (l == null){
-			return 0;
-		} else {
-			int existants = 0;
-			for (int i=0; i < l.size() ; i++){
-				if (!existe(l.get(i)) ){
-					if (this.addProduit(l.get(i))){
-						existants++;
-					}
-				}
-			}
-			return existants;	
-		}
-	}
 
-	/** Enlève le produit du catalogue. 
-	 * @param nom : le nom du produit à enlever 
-	 * @return Vrai si le produit existe et a été supprimé, Faux sinon. */
 	@Override
 	public boolean removeProduit(String nom) {
 		if (nom == null){
@@ -122,10 +121,6 @@ public class Catalogue implements I_Catalogue {
 		}
 	}
 
-	/** Met à jour le stock d'un produit de notre catalogue.
-	 * @param nomProduit : nom du produit à mettre à jour.
-	 * @param qteAchetee : quantite à ajouter au stock. 
-	 * @return Vrai si l'objet appartient au stock et a été mis à jour, Faux sinon. */
 	@Override
 	public boolean acheterStock(String nomProduit, int qteAchetee) {
 		for (int i=0; i < this.lesProduits.size(); i++){
@@ -138,10 +133,7 @@ public class Catalogue implements I_Catalogue {
 		return false;
 	}
 
-	/** Met à jour le stock d'un produit de notre catalogue.
-	 * @param nomProduit : nom du produit à mettre à jour.
-	 * @param qteVendue : quantite à enlever du stock.
-	 * @return Vrai si l'objet appartient au stock et a été mis à jour, Faux sinon. */
+
 	@Override
 	public boolean vendreStock(String nomProduit, int qteVendue) {
 		for (int i=0; i < this.lesProduits.size(); i++){
@@ -154,7 +146,7 @@ public class Catalogue implements I_Catalogue {
 		return false;
 	}
 
-	/** @return un tableau dont chaque case contient le nom d'un élément du catalogue. */
+
 	@Override
 	public String[] getNomProduits() {
 		int taille = this.lesProduits.size();
@@ -166,7 +158,19 @@ public class Catalogue implements I_Catalogue {
 		return tab;
 	}
 
-	/** Methode d'affichage dans le format demandé. */
+	public double getMontantTotalTTC() {
+		double somme = 0;
+		for (int i = 0; i < this.lesProduits.size(); i ++){
+			somme+= this.lesProduits.get(i).getPrixStockTTC();
+		}
+		return Catalogue.arrondir(somme);
+	}
+
+	@Override
+	public List<I_Produit> getLesProduits() {
+		return lesProduits;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -179,24 +183,8 @@ public class Catalogue implements I_Catalogue {
 		return stringBuilder.toString();
 	}
 
-	/** @return la valeur totale des produits du catalogue en stock (en prenant en compte la quantité). */
-	public double getMontantTotalTTC() {
-		double somme = 0;
-		for (int i = 0; i < this.lesProduits.size(); i ++){
-			somme+= this.lesProduits.get(i).getPrixStockTTC();
-		}
-		return Catalogue.arrondir(somme);
-	}
-
-	/**	Efface tous les objets du catalogue. */
 	@Override
 	public void clear() {
 		this.lesProduits.clear();
 	}
-
-	/** @return la Liste des produits du catalogue. */
-	public List<I_Produit> getLesProduits() {
-		return lesProduits;
-	}
-
 }

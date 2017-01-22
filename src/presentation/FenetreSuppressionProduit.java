@@ -10,10 +10,10 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 
 	private JButton btSupprimer;
 	private JComboBox<String> combo;
-	private ControleurCatalogue cc;
+	private ControleurCatalogue controleur_catalogue;
 	
-	public FenetreSuppressionProduit(ControleurCatalogue cc, String lesProduits[]) {
-		this.cc = cc;
+	public FenetreSuppressionProduit(ControleurCatalogue controleur_catalogue, String lesProduits[]) {
+		this.controleur_catalogue = controleur_catalogue;
 		setTitle("Suppression produit");
 		setBounds(500, 500, 200, 105);
 		Container contentPane = getContentPane();
@@ -33,7 +33,7 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 
 	public void actionPerformed(ActionEvent e) {
 		String nomProduit = this.combo.getSelectedItem().toString();
-		this.cc.removeProduit(nomProduit);
+		this.controleur_catalogue.removeProduit(nomProduit);
 		this.dispose();
 	}
 

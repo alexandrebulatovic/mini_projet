@@ -91,7 +91,7 @@ WindowListener {
 			//			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit(this.controleur_catalogue);
 		if (e.getSource() == btSupprimerProduit)
-			new FenetreSuppressionProduit(this.controleur_catalogue,this.controleur_catalogue.getNomProduits());
+			new FenetreSuppressionProduit(this.controleur_catalogue, this.controleur_catalogue.getNomProduits());
 		//		if (e.getSource() == btNouvelleCategorie)
 		//			new FenetreNouvelleCategorie();
 		//		if (e.getSource() == btSupprimerCategorie)

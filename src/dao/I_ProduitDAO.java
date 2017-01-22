@@ -15,11 +15,11 @@ public interface I_ProduitDAO {
 
 	/** Crée un nouveau produit dans la base de données.
 	 * @param p : objet {@code I_Produit} à ajouter. */
-	public abstract void create(I_Produit p);
+	public abstract boolean create(I_Produit p);
 
 	/** Supprime un produit de la base de données.
 	 * @param nom : nom du produit à supprimer. */
-	public abstract void delete(String nom);
+	public abstract boolean delete(String nom);
 
 	/** Génère une liste de tous les produits stockés dans la base de données.
 	 * @return un objet {@code List} contenant tous les produits. */
@@ -30,9 +30,17 @@ public interface I_ProduitDAO {
 	 * @return un objet {@code I_Produit} correspondant à un produit existant. */
 	public abstract I_Produit findByName(String nom);
 
-	/** Met à jour un produit de la base de données..
-	 * @param p : {@code Produit} avec les informations à jour. */
-	public abstract void update(I_Produit p);
+	/** Met à jour la quantité d'un {@code Produit} dans la base de données.
+	 * @param nom : nom du produit à mettre à jour.
+	 * @param qte : quantité à rajouter au stock. 
+	 * @return Vrai si l'ajout a réussi, faux sinon. */
+	public abstract boolean addQuantite(String nom, int qte);
+
+	/** Met à jour la quantité d'un {@code Produit} dans la base de données.
+	 * @param nom : nom du produit à mettre à jour.
+	 * @param qte : quantité à enlever du stock. 
+	 * @return Vrai si le retrait a réussi, faux sinon. */
+	public abstract boolean removeQuantite(String nom, int qte);
 
 	/** Ferme la connexion à la base de données. */
 	public abstract void disconnect();

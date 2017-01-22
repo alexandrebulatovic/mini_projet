@@ -1,13 +1,15 @@
 package application;
 
-import metier.I_Catalogue;
-import metier.I_Produit;
-import metier.Produit;
 import dao.I_ProduitDAO;
+import metier.I_Catalogue;
 
 /**
- * Correspond au scenario "Enregistrer un achat ou une vente".
+ * Cette classe se charge de modifier les stocks des produits.
+ * 
+ * @see #acheterStock(String, int)
+ * @see #vendreStock(String, int)
  */
+
 public class ControleurAchatVente {
 
 	/* ATTRIBUTS */
@@ -23,15 +25,25 @@ public class ControleurAchatVente {
 		this.dao = dao;
 	}
 
-	public void acheterStock(String nom, int qte){
-		I_Produit produit = new Produit(nom,0,qte);
-		this.catalogue.acheterStock(nom, qte);
-		this.dao.update(produit);
+	/**
+	 * Met à jour le stock d'un produit.
+	 * @param nom : nom du produit à mettre à jour.
+	 * @param qteAchetee : quantité à rajouter au stock.
+	 */
+	public void acheterStock(String nom, int qteAchetee){
+
+		if (this.catalogue.acheterStock(nom, qteAchetee))
+			this.dao.addQuantite(nom, qteAchetee);
 	}
 
-	public void vendreStock(String nom, int qte){
-		I_Produit produit = new Produit(nom,0,-qte);
-		this.catalogue.vendreStock(nom, qte);
-		this.dao.update(produit);
+	/**
+	 * Met à jour le stock d'un produit.
+	 * @param nom : nom du produit à mettre à jour.
+	 * @param qteVendue : quantité à enlever au stock.
+	 */
+	public void vendreStock(String nom, int qteVendue){
+
+		if (this.catalogue.vendreStock(nom, qteVendue))
+			this.dao.removeQuantite(nom, qteVendue);
 	}
 }

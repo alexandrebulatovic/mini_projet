@@ -4,17 +4,21 @@ import dao.I_ProduitDAO;
 import metier.*;
 
 /**
- * Correspond au scenario "Connaitre l'etat des stocks".
+ * Cette classe se charge d'afficher le contenu du catalogue.
  */
-public class ControleurStocks {
-	private I_Catalogue catalogue;
 
-	I_ProduitDAO dao;
+public class ControleurStocks {
+
+	private I_Catalogue catalogue;
 
 	public ControleurStocks(I_Catalogue cat, I_ProduitDAO dao){
 		this.catalogue=cat;
-		this.dao=dao;
 	}
+
+	/**
+	 * Permet d'afficher le contenu du catalogue.
+	 * @return un {@code String} représentant le catalogue.
+	 */
 	public String getStocksCatalogue() {
 		return this.catalogue.toString();
 	}
