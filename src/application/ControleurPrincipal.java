@@ -1,55 +1,61 @@
 package application;
-import dao.FactoryDAO;
+
+import dao.DAOFactory;
 import dao.I_ProduitDAO;
 import dao.ProduitDAO_SQL;
-import metier.*;
-import presentation.*;
+import metier.Catalogue;
+import metier.I_Catalogue;
+import presentation.FenetrePrincipale;
+
+/**
+ * Cette classe permet d'initialiser le programme.
+ * <P>
+ * Elle instancie les sous-contrôleurs, le {@code Catalogue}
+ * et le {@code DAO}.
+ */
 
 public class ControleurPrincipal {
 
+	/* ATTRIBUTS */
 
-	private Catalogue catalogue;
+	/** Le {@code Catalogue} en cours d'utilisation. */
+	private I_Catalogue catalogue;
 
-	private ControleurCatalogue controleur_catalogue;
-	private ControleurStocks controleur_stock;
-	private ControleurAchatVente controleur_achats_ventes;
-
+	/** Le {@code ProduitDAO} en cours d'utilisation. */
 	private I_ProduitDAO dao;
 
-	private FactoryDAO factory;
+	private ControleurCatalogue controleur_catalogue;
+	private ControleurAchatVente controleur_achat_vente;
+	private ControleurStocks controleur_stocks;
 
+	/* METHODES */
 
-	/** Constructeur principal du programme avec un catalogue commun et les contrôleurs associés. */
-	public ControleurPrincipal() {
+	/** Instancie les autres contrôleurs, le {@code DAO} et 
+	 * un {@code Catalogue} commun à tous les contrôleurs.*/
+	public ControleurPrincipal() 
+	{
 		this.catalogue = new Catalogue();
-		this.factory = new FactoryDAO();
-		this.dao = factory.createDAO();
+		this.dao = DAOFactory.getInstance().createDAO(DAOFactory.TYPE_XML);
+
 		this.controleur_catalogue = new ControleurCatalogue(this.catalogue, this.dao);
-		this.controleur_stock = new ControleurStocks(this.catalogue, this.dao);
-		this.controleur_achats_ventes = new ControleurAchatVente(this.catalogue, this.dao);
+		this.controleur_stocks = new ControleurStocks(this.catalogue, this.dao);
+		this.controleur_achat_vente = new ControleurAchatVente(this.catalogue, this.dao);
 	}
 
 	public ControleurCatalogue getControleurCatalogue() {
 		return this.controleur_catalogue;
 	}
 
-	public ControleurStocks getControleurStock() {
-		return this.controleur_stock;
+	public ControleurStocks getControleurStocks() {
+		return this.controleur_stocks;
 	}
 
-	public ControleurAchatVente getControleurAchatsVentes() {
-		return this.controleur_achats_ventes;
+	public ControleurAchatVente getControleurAchatVente() {
+		return this.controleur_achat_vente;
 	}
 
-
-	public static void main(String[] args) {
-		ControleurPrincipal c = new ControleurPrincipal();
-		FenetrePrincipale f = new FenetrePrincipale();
-	}
-
+	/** Ferme la connexion à la base de données. */
 	public void disconnect() {
-		if (this.dao instanceof ProduitDAO_SQL)
-			((ProduitDAO_SQL)this.dao).disconnect();
+		this.dao.disconnect();
 	}
-
 }

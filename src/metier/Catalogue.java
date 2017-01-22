@@ -15,15 +15,13 @@ import java.util.List;
  */
 public class Catalogue implements I_Catalogue {
 
-	private ArrayList<I_Produit> lesProduits;
+	private List<I_Produit> lesProduits;
 
 	public Catalogue() {
 		this.lesProduits = new ArrayList<I_Produit>();
 	}
 
-	/** On ajoute un objet produit au catalogue s'il n'existe pas déjà. 
-	 @param produit : un produit à ajouter 
-	 @return Vrai si l'ajout à reussi. */
+
 	@Override
 	public boolean addProduit(I_Produit produit) {
 		if (this.existe(produit) || !(this.check(produit))){
@@ -35,7 +33,7 @@ public class Catalogue implements I_Catalogue {
 		}
 	}
 
-	/** Ré-utilise la methode addProduit(Produit) pour ajouter un produit qu'on créé. */
+
 	@Override
 	public boolean addProduit(String nom, double prix, int qte) {
 		Produit produit = new Produit(nom, prix, qte);
@@ -197,7 +195,7 @@ public class Catalogue implements I_Catalogue {
 	}
 
 	/** @return la Liste des produits du catalogue. */
-	public ArrayList<I_Produit> getLesProduits() {
+	public List<I_Produit> getLesProduits() {
 		return lesProduits;
 	}
 

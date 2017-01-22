@@ -796,7 +796,7 @@ public class CatalogueTest {
 
 	@Test
 	public void testClear() {
-		ArrayList<I_Produit> p = new ArrayList<I_Produit>();
+		List<I_Produit> p = new ArrayList<I_Produit>();
 		this.cat.clear();
 		assertEquals("non egal",this.cat.getLesProduits(), p);
 	}

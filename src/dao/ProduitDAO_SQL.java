@@ -21,7 +21,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	/** Initialise une connexion à une base de données. */
 	public ProduitDAO_SQL()
 	{
-		this.conn = ConnexionDAO.getInstance().getConnexion();
+		this.conn = ConnexionDAO_SQL.getInstance().getConnexion();
 	}
 
 	public void create(I_Produit p){
@@ -57,7 +57,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		return produits;
 	}
 
-	public void updateProduit(I_Produit p){
+	public void update(I_Produit p){
 		String sql = "UPDATE Produits SET quantite = quantite + ? WHERE nom = ?";
 		try {
 			prepstat = this.conn.prepareStatement(sql);
@@ -100,7 +100,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	/** Ferme la connexion à la base de données. */
 	public void disconnect() {
-		ConnexionDAO.fermerConnexion();
+		ConnexionDAO_SQL.fermerConnexion();
 	}
 
 

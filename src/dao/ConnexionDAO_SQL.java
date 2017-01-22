@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 /** Représente une connexion à une base de données Oracle. */
 
-public class ConnexionDAO 
+public class ConnexionDAO_SQL
 {
 
 	/* CONSTANTES */
@@ -16,11 +16,11 @@ public class ConnexionDAO
 	private static final String PASSWORD = "0205006473Y";
 
 	/* FIELDS */
-	private static ConnexionDAO INSTANCE_CONNEXION = null;
+	private static ConnexionDAO_SQL INSTANCE_CONNEXION = null;
 	private static Connection connexion;
 
 	/* METHODES */
-	private ConnexionDAO() 
+	private ConnexionDAO_SQL() 
 	{
 		try {
 			Class.forName(DRIVER);
@@ -39,12 +39,12 @@ public class ConnexionDAO
 
 	/** Retourne l'instance en cours d'une {@code ConnexionDAO} ou 
 	 * alors crée une nouvelle instance si nécessaire.
-	 * @return un {@link ConnexionDAO}
+	 * @return un {@link ConnexionDAO_SQL}
 	 */
-	public synchronized static ConnexionDAO getInstance()
+	public synchronized static ConnexionDAO_SQL getInstance()
 	{			
 		if (INSTANCE_CONNEXION == null)
-			INSTANCE_CONNEXION = new ConnexionDAO();
+			INSTANCE_CONNEXION = new ConnexionDAO_SQL();
 
 		return INSTANCE_CONNEXION;
 	}

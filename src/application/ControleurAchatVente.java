@@ -1,6 +1,6 @@
 package application;
 
-import metier.Catalogue;
+import metier.I_Catalogue;
 import metier.I_Produit;
 import metier.Produit;
 import dao.I_ProduitDAO;
@@ -9,23 +9,29 @@ import dao.I_ProduitDAO;
  * Correspond au scenario "Enregistrer un achat ou une vente".
  */
 public class ControleurAchatVente {
-	private Catalogue cat;
+
+	/* ATTRIBUTS */
+
+	private I_Catalogue catalogue;
+
 	private I_ProduitDAO dao;
 
-	public ControleurAchatVente(Catalogue cat,I_ProduitDAO dao){
-		this.cat=cat;
-		this.dao=dao;
+	/* METHODES */
+
+	public ControleurAchatVente(I_Catalogue catalogue, I_ProduitDAO dao){
+		this.catalogue = catalogue;
+		this.dao = dao;
 	}
 
 	public void acheterStock(String nom, int qte){
 		I_Produit produit = new Produit(nom,0,qte);
-		this.cat.acheterStock(nom, qte);
-		this.dao.updateProduit(produit);
+		this.catalogue.acheterStock(nom, qte);
+		this.dao.update(produit);
 	}
 
 	public void vendreStock(String nom, int qte){
 		I_Produit produit = new Produit(nom,0,-qte);
-		this.cat.vendreStock(nom, qte);
-		this.dao.updateProduit(produit);
+		this.catalogue.vendreStock(nom, qte);
+		this.dao.update(produit);
 	}
 }

@@ -3,15 +3,16 @@ package dao;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import metier.I_Produit;
 import metier.Produit;
-
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;
 
-
+/**
+ * Classe fournie et non modifiée permettant l'utilisation 
+ * de fichiers XML pour la persistance des données.
+ */
 public class ProduitDAO_XML {
 	private String uri = "Produits.xml"; // fichier a placer dans le dossier du mini projet
 	private Document doc;

@@ -7,15 +7,15 @@ import metier.*;
  * Correspond au scenario "Connaitre l'etat des stocks".
  */
 public class ControleurStocks {
-	private Catalogue cat;
+	private I_Catalogue catalogue;
 
 	I_ProduitDAO dao;
 
-	public ControleurStocks(Catalogue cat, I_ProduitDAO dao){
-		this.cat=cat;
+	public ControleurStocks(I_Catalogue cat, I_ProduitDAO dao){
+		this.catalogue=cat;
 		this.dao=dao;
 	}
 	public String getStocksCatalogue() {
-		return this.cat.toString();
+		return this.catalogue.toString();
 	}
 }

@@ -1,50 +1,65 @@
 package application;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
-
-import dao.FactoryDAO;
 import dao.I_ProduitDAO;
-import dao.ProduitDAO_SQL;
-import metier.*;
+import metier.Catalogue;
+import metier.I_Catalogue;
+import metier.I_Produit;
+import metier.Produit;
 
 /**
- * Correspond au scenario "Creer ou Supprimer un produit".
+ * Permet d'initialiser le {@code Catalogue} du programme avec 
+ * les {@code Produit} stockés dans la base de données.
+ * <P>
+ * Cette classe se charge aussi d'ajouter et de supprimer des produits à notre 
+ * catalogue et propage les modifications à la base de données.
  */
+
 public class ControleurCatalogue {
-	private Catalogue cat;
+
+	/* ATTRIBUTS */
+
+	private I_Catalogue catalogue;
+
 	private I_ProduitDAO dao;
-	public ControleurCatalogue(Catalogue cat,I_ProduitDAO dao){
-		this.cat = cat;
+
+	/* METHODES */
+
+	/**
+	 * Remplit le {@code Catalogue}.
+	 * @param catalogue : {@code Catalogue} à utiliser.
+	 * @param dao : {@code ProduitDAO} à utiliser pour obtenir les produits.
+	 */
+	public ControleurCatalogue(I_Catalogue catalogue, I_ProduitDAO dao){
+		this.catalogue = catalogue;
 		this.dao = dao;
-		this.initialiseCatalogue();
+		this.remplirCatalogue();
 	}
 
 	public void addProduit(String nom, double prix, int qte) {
 		Produit p = new Produit(nom, prix, qte);
-		this.cat.addProduit(p);
+		this.catalogue.addProduit(p);
 		this.dao.create(p);
 
 	}
 
 	public String[] getNomProduits(){
-		return this.cat.getNomProduits();
+		return this.catalogue.getNomProduits();
 	}
 
 	public void removeProduit(String nom){
-		this.cat.removeProduit(nom);
+		this.catalogue.removeProduit(nom);
 		this.dao.delete(nom);
 	}
 
 	/**
-	 * Initialise le {@code Catalogue} à partir des données persistantes.
+	 * Remplit le {@code Catalogue} à partir des données persistantes.
 	 * @see Catalogue
 	 */
-	public void initialiseCatalogue() {
+	public void remplirCatalogue() {
 		List<I_Produit> produits = this.dao.findAll();
 		for(I_Produit p : produits){
-			this.cat.addProduit(p);
+			this.catalogue.addProduit(p);
 		}
 
 	}
