@@ -27,10 +27,9 @@ WindowListener {
 	private ControleurPrincipal controleur_principal;
 	private ControleurAchatVente controleur_achats_ventes;
 
-	public FenetrePrincipale() {
+	public FenetrePrincipale(ControleurPrincipal controleur_principal) {
 
-		this.controleur_principal = new ControleurPrincipal();
-
+		this.controleur_principal = controleur_principal;
 		this.controleur_catalogue = controleur_principal.getControleurCatalogue();
 		this.controleur_stock = controleur_principal.getControleurStocks();
 		this.controleur_achats_ventes = controleur_principal.getControleurAchatVente();
@@ -44,7 +43,7 @@ WindowListener {
 		JPanel panQuitter = new JPanel();
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
-		btAfficher = new JButton("Quantit�s en stock");
+		btAfficher = new JButton("Quantités en stock");
 		btNouveauProduit = new JButton("Nouveau Produit");
 		btSupprimerProduit = new JButton("Supprimer Produit");
 		//		btNouvelleCategorie = new JButton("Nouvelle Categorie");
@@ -85,8 +84,12 @@ WindowListener {
 		/* M�me chose pour tabCategories (partie 4) */ 		
 		//		String[] tabCategories = new String[] {"Bio", "Luxe" };
 
-		if (e.getSource() == btAfficher)
-			new FenetreAffichage(this.controleur_stock.getStocksCatalogue());
+		if (e.getSource() == btAfficher) {
+			String stocksCatalogue = this.controleur_stock.getStocksCatalogue();
+
+			if ( stocksCatalogue != null)
+				new FenetreAffichage(stocksCatalogue);
+		}
 		if (e.getSource() == btNouveauProduit)
 			//			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit(this.controleur_catalogue);

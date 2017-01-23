@@ -1,13 +1,13 @@
 package main;
 
-import presentation.FenetrePrincipale;
+import application.ControleurPrincipal;
 
 /** Permet de lancer le programme. */
 
 public class Main {
 
 	public static void main(String[] args) {
-		new FenetrePrincipale();
+		new ControleurPrincipal();
 	}
 
 }

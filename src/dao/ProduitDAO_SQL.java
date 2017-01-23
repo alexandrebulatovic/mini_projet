@@ -71,7 +71,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 			rs = prepstat.executeQuery(sql);
 
 			if (rs.next())
-				produit = new Produit(rs.getString(1), rs.getDouble(2), rs.getInt(3));
+				produit = new Produit(rs.getString(2), rs.getDouble(3), rs.getInt(4));
 			else
 				return null;
 
@@ -94,7 +94,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 			while(rs.next())
 			{
-				Produit p = new Produit(rs.getString(1), rs.getDouble(2), rs.getInt(3));
+				I_Produit p = new Produit(rs.getString(2), rs.getDouble(3), rs.getInt(4));
 				produits.add(p);
 			}
 		}
