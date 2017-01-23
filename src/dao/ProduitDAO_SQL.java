@@ -11,6 +11,12 @@ import java.util.List;
 import metier.I_Produit;
 import metier.Produit;
 
+/**
+ * Implémentation de {@code I_ProduitDAO} spécifique pour un SGBD utilisant 
+ * le langage SQL et implémentant l'API {@code JDBC}.
+ * @see I_ProduitDAO
+ */
+
 public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	/* ATTRIBUTS */
@@ -28,22 +34,25 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	/* METHODES */
 
-	/** Initialise une connexion à une base de données. */
+	/** Initialise la connexion à la base de données. */
 	public ProduitDAO_SQL()
 	{
-		this.conn = ConnexionDAO_SQL.getInstance().getConnexion();
+		this.conn = ConnexionDAO_Oracle.getInstance().getConnexion();
 	}
 
 	@Override
 	public boolean create(I_Produit p){
 		String sql = "INSERT INTO Produits(nom, prixHT, quantite) VALUES (?,?,?)";
-		try {
+		try 
+		{
 			prepstat = this.conn.prepareStatement(sql);
 			prepstat.setString(1, p.getNom());
 			prepstat.setDouble(2, p.getPrixUnitaireHT());
 			prepstat.setInt(3, p.getQuantite());
 			prepstat.executeUpdate();
+
 			return true;
+
 		} catch (SQLException e) {
 			System.out.println("erreur creation produit");
 			return false;
@@ -51,21 +60,46 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	}
 
 	@Override
-	public List<I_Produit> findAll(){
+	public I_Produit findByName(String nom) {
+		String sql = "SELECT * FROM Produits WHERE nom = ?";
+
+		I_Produit produit;
+
+		try {
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setString(1, nom);
+			rs = prepstat.executeQuery(sql);
+
+			if (rs.next())
+				produit = new Produit(rs.getString(1), rs.getDouble(2), rs.getInt(3));
+			else
+				return null;
+
+			return produit;
+		} catch (SQLException e) {
+			System.out.println("erreur recuperation produit");
+			return null;
+		}
+	}
+
+	@Override
+	public List<I_Produit> findAll()
+	{
 		String sql = "SELECT * FROM Produits";
 		List<I_Produit> produits = new ArrayList<I_Produit>();
+
 		try {
 			stat = this.conn.createStatement();
 			rs = stat.executeQuery(sql);
-			while(rs.next()){
-				Produit p = new Produit(rs.getString(1),rs.getDouble(2),rs.getInt(3));
+
+			while(rs.next())
+			{
+				Produit p = new Produit(rs.getString(1), rs.getDouble(2), rs.getInt(3));
 				produits.add(p);
 			}
-			rs.close();
-			stat.close();
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("erreur recuperation produits");
 		}
 		return produits;
 	}
@@ -92,10 +126,12 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 		String sql = "UPDATE Produits SET quantite = quantite "+ operation + "? WHERE nom = ?";
 		try {
 			prepstat = this.conn.prepareStatement(sql);
+
 			prepstat.setInt(1, qte);
 			prepstat.setString(2, nom);
 			prepstat.executeUpdate();
 			return true;
+
 		} catch (SQLException e) {
 			System.out.println("erreur maj quantite produit");
 			return false;
@@ -105,11 +141,14 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	@Override
 	public boolean delete(String nom) {
 		String sql = "DELETE FROM Produits WHERE nom = ?";
+
 		try {
 			prepstat = this.conn.prepareStatement(sql);
+
 			prepstat.setString(1, nom);
 			prepstat.executeUpdate();
 			return true;
+
 		} catch (SQLException e) {
 			System.out.println("erreur suppression produit");
 			return false;
@@ -117,29 +156,7 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	}
 
 	@Override
-	public I_Produit findByName(String nom) {
-		String sql = "SELECT FROM Produits WHERE nom = ?";
-
-		I_Produit p = null;
-
-		try {
-			prepstat = this.conn.prepareStatement(sql);
-			prepstat.setString(1, nom);
-			ResultSet result = prepstat.executeQuery(sql);
-			if (result.next())
-				p = new Produit(result.getString(1),result.getDouble(2),result.getInt(3));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return p;
-	}
-
-	@Override
 	public void disconnect() {
-		ConnexionDAO_SQL.fermerConnexion();
+		ConnexionDAO_Oracle.fermerConnexion();
 	}
-
-
-
 }
-

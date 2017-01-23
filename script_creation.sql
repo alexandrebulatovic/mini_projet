@@ -2,8 +2,8 @@ CREATE TABLE Produits
 (
 id_produit INT NOT NULL,
 nom VARCHAR(255) NOT NULL UNIQUE,
+prixHT NUMBER(*,2) NOT NULL,
 quantite INT NOT NULL,
-prix NUMBER(*,2) NOT NULL,
 CONSTRAINT pk_produit PRIMARY KEY (id_produit)
 )
 

@@ -39,7 +39,7 @@ public class ControleurAchatVente {
 	/**
 	 * Met à jour le stock d'un produit.
 	 * @param nom : nom du produit à mettre à jour.
-	 * @param qteVendue : quantité à enlever au stock.
+	 * @param qteVendue : quantité à enlever du stock.
 	 */
 	public void vendreStock(String nom, int qteVendue){
 

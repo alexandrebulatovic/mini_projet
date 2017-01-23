@@ -1,30 +1,35 @@
 package dao;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /** Représente une connexion à une base de données Oracle. */
 
-public class ConnexionDAO_SQL
+public class ConnexionDAO_Oracle
 {
 
-	/* CONSTANTES */
+	/* ATTRIBUTS */
+
 	private static final String DRIVER = "oracle.jdbc.OracleDriver";
 	private static final String ADRESSE = "jdbc:oracle:thin:@162.38.222.149:1521:IUT";
 	private static final String USER = "maurya";
 	private static final String PASSWORD = "0205006473Y";
 
-	/* FIELDS */
-	private static ConnexionDAO_SQL INSTANCE_CONNEXION = null;
+	private static ConnexionDAO_Oracle INSTANCE;
+
 	private static Connection connexion;
 
 	/* METHODES */
-	private ConnexionDAO_SQL() 
+
+	/**
+	 * Initialise un objet {@code Connection} pour la base de données Oracle.
+	 */
+	protected ConnexionDAO_Oracle() 
 	{
 		try {
 			Class.forName(DRIVER);
-			this.connexion = DriverManager.getConnection(ADRESSE, USER, PASSWORD);
+			connexion = DriverManager.getConnection(ADRESSE, USER, PASSWORD);
 		} catch (SQLException e) {
 			System.out.println("Erreur : "+e.getMessage());
 		} catch (ClassNotFoundException e){
@@ -32,23 +37,16 @@ public class ConnexionDAO_SQL
 		}
 	}
 
+	public static synchronized ConnexionDAO_Oracle getInstance()
+	{			
+		if (INSTANCE == null)
+			INSTANCE = new ConnexionDAO_Oracle();
+		return INSTANCE;
+	}
 
 	public Connection getConnexion() {
 		return connexion;
 	}
-
-	/** Retourne l'instance en cours d'une {@code ConnexionDAO} ou 
-	 * alors crée une nouvelle instance si nécessaire.
-	 * @return un {@link ConnexionDAO_SQL}
-	 */
-	public synchronized static ConnexionDAO_SQL getInstance()
-	{			
-		if (INSTANCE_CONNEXION == null)
-			INSTANCE_CONNEXION = new ConnexionDAO_SQL();
-
-		return INSTANCE_CONNEXION;
-	}
-
 
 	/** Ferme la connexion à la base de données.
 	 * @return Vrai si la fermeture a réussie, faux sinon. */
@@ -56,10 +54,11 @@ public class ConnexionDAO_SQL
 	{
 		boolean fermeture_connexion;
 
-		try {
+		try 
+		{
 			connexion.close();
 			fermeture_connexion = true;
-			INSTANCE_CONNEXION = null;
+			INSTANCE = null;
 
 		} catch (SQLException e) {
 

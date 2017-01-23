@@ -32,6 +32,7 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 	@Override
 	public boolean delete(String nom) {
 		I_Produit produit = xml_dao.lire(nom);
+
 		return this.xml_dao.supprimer(produit);
 	}
 
@@ -42,7 +43,6 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 
 	@Override
 	public boolean addQuantite(String nom, int qte) {
-
 		return majQuantiteProduit(nom, qte, ProduitDAO_XML_Adapted.AJOUT);
 	}
 
@@ -59,13 +59,14 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 	 * {@code ProduitDAO_XML_Adapted.RETRAIT}.
 	 * @return Vrai si la mise à jour a réussi, faux sinon.
 	 */
-	private boolean majQuantiteProduit(String nom, int qte, char operator) {
+	private boolean majQuantiteProduit(String nom, int qte, char operation) {
+
 		I_Produit produitActuel = xml_dao.lire(nom);
 
 		if (produitActuel != null)
 		{
 			double prixUnitaireHT = produitActuel.getPrixUnitaireHT();
-			int nouvelleQuantite = produitActuel.getQuantite() + operator + qte;
+			int nouvelleQuantite = produitActuel.getQuantite() + operation + qte;
 
 			I_Produit produit = new Produit(nom, prixUnitaireHT, nouvelleQuantite);
 
@@ -78,7 +79,6 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 			return false;
 	}
 
-
 	@Override
 	public I_Produit findByName(String nom) {
 		return this.xml_dao.lire(nom);
@@ -86,7 +86,4 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 
 	@Override
 	public void disconnect() {}
-
-
-
 }

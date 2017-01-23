@@ -798,7 +798,7 @@ public class CatalogueTest {
 	public void testClear() {
 		List<I_Produit> p = new ArrayList<I_Produit>();
 		this.cat.clear();
-		assertEquals("non egal",this.cat.getLesProduits(), p);
+		assertEquals("non egal",this.cat.getListeProduits(), p);
 	}
 
 	private I_Produit createProduit(String nom, double prixHT, int quantite) {

@@ -25,18 +25,18 @@ public interface I_ProduitDAO {
 	 * @return un objet {@code List} contenant tous les produits. */
 	public abstract List<I_Produit> findAll();
 
-	/** Génère le produit demandé parmi ceux stockés dans la base de données.
+	/** Cherche le produit demandé dans la base de données.
 	 * @param nom : nom du produit à générer.
 	 * @return un objet {@code I_Produit} correspondant à un produit existant. */
 	public abstract I_Produit findByName(String nom);
 
-	/** Met à jour la quantité d'un {@code Produit} dans la base de données.
+	/** Met à jour la quantité d'un produit dans la base de données.
 	 * @param nom : nom du produit à mettre à jour.
 	 * @param qte : quantité à rajouter au stock. 
 	 * @return Vrai si l'ajout a réussi, faux sinon. */
 	public abstract boolean addQuantite(String nom, int qte);
 
-	/** Met à jour la quantité d'un {@code Produit} dans la base de données.
+	/** Met à jour la quantité d'un produit dans la base de données.
 	 * @param nom : nom du produit à mettre à jour.
 	 * @param qte : quantité à enlever du stock. 
 	 * @return Vrai si le retrait a réussi, faux sinon. */

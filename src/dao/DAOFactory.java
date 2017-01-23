@@ -44,5 +44,4 @@ public class DAOFactory {
 			INSTANCE = new DAOFactory();
 		return INSTANCE;
 	}
-
 }

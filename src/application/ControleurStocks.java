@@ -4,7 +4,7 @@ import dao.I_ProduitDAO;
 import metier.*;
 
 /**
- * Cette classe se charge d'afficher le contenu du catalogue.
+ * Cette classe permet d'afficher le contenu du catalogue.
  */
 
 public class ControleurStocks {

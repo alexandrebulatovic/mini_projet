@@ -11,7 +11,7 @@ import metier.Produit;
  * Permet d'initialiser le {@code Catalogue} du programme avec 
  * les {@code Produit} stockés dans la base de données.
  * <P>
- * Cette classe se charge aussi d'ajouter et de supprimer des produits à notre 
+ * Cette classe permet aussi d'ajouter et de supprimer des produits à notre 
  * catalogue et propage les modifications à la base de données.
  */
 
