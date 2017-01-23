@@ -1,8 +1,9 @@
 package application;
 
 import presentation.FenetrePrincipale;
-import dao.DAOFactory;
+import dao.I_DAOFactory;
 import dao.I_ProduitDAO;
+import dao.MainFactory;
 import metier.Catalogue;
 import metier.I_Catalogue;
 
@@ -30,10 +31,10 @@ public class ControleurPrincipal {
 
 	/** Instancie les autres contrôleurs, le {@code DAO} et 
 	 * un {@code Catalogue} commun à tous les contrôleurs.*/
-	public ControleurPrincipal() 
+	public ControleurPrincipal(String nom) 
 	{
-		this.catalogue = new Catalogue();
-		this.dao = DAOFactory.getInstance().createDAO(DAOFactory.TYPE_SQL);
+		this.catalogue = new Catalogue(nom);
+		this.dao = MainFactory.createDAO(MainFactory.TYPE_SQL).createProduitDAO();
 
 		this.controleur_catalogue = new ControleurCatalogue(this.catalogue, this.dao);
 		this.controleur_stocks = new ControleurStocks(this.catalogue, this.dao);

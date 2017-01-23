@@ -19,11 +19,14 @@ public class Catalogue implements I_Catalogue {
 	/* ATTRIBUTS */
 
 	private List<I_Produit> lesProduits;
+	
+	private String nom;
 
 	/* METHODES */
 
-	public Catalogue() {
+	public Catalogue(String nom) {
 		this.lesProduits = new ArrayList<I_Produit>();
+		this.nom=nom;
 	}
 
 	@Override
@@ -130,6 +133,10 @@ public class Catalogue implements I_Catalogue {
 
 		return null;
 	}
+	
+	public String getNom() {
+		return nom;
+	}
 
 	@Override
 	public String[] getNomProduits() {
@@ -232,5 +239,10 @@ public class Catalogue implements I_Catalogue {
 	@Override
 	public void clear() {
 		this.lesProduits.clear();
+	}
+
+	@Override
+	public int getNbProduit() {
+		return this.lesProduits.size();
 	}
 }

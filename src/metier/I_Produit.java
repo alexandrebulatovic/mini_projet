@@ -33,4 +33,5 @@ public interface I_Produit {
 	/** Méthode d'affichage respectant le format demandé.  */
 	public abstract String toString();
 
+
 }

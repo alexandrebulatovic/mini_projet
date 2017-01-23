@@ -47,7 +47,7 @@ public class ControleurCatalogue {
 		Produit p = new Produit(nom, prix, qte);
 
 		if (this.catalogue.addProduit(p))
-			this.dao.create(p);
+			this.dao.create(p,this.catalogue.getNom());
 	}
 
 	/**

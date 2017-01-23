@@ -8,14 +8,14 @@ import metier.I_Produit;
  * <strong>Note:</strong>
  *  Une classe correspondant à une nouvelle technologie de stockage devra implémenter cette 
  *  interface pour continuer à stocker les données. Il faudra aussi veiller à rajouter la 
- *  technologie employée dans la méthode {@link DAOFactory#createDAO(int)}.
+ *  technologie employée dans la méthode {@link I_DAOFactory#createDAO(int)}.
  *  */
 
 public interface I_ProduitDAO {
 
 	/** Crée un nouveau produit dans la base de données.
 	 * @param p : objet {@code I_Produit} à ajouter. */
-	public abstract boolean create(I_Produit p);
+	public abstract boolean create(I_Produit p,String catalogue);
 
 	/** Supprime un produit de la base de données.
 	 * @param nom : nom du produit à supprimer. */

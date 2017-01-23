@@ -1,5 +1,6 @@
 package main;
 
+import application.ControleurAccueil;
 import application.ControleurPrincipal;
 
 /** Permet de lancer le programme. */
@@ -7,7 +8,7 @@ import application.ControleurPrincipal;
 public class Main {
 
 	public static void main(String[] args) {
-		new ControleurPrincipal();
+		new ControleurAccueil();
 	}
 
 }

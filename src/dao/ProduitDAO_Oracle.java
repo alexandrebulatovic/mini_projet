@@ -17,7 +17,7 @@ import metier.Produit;
  * @see I_ProduitDAO
  */
 
-public class ProduitDAO_SQL implements I_ProduitDAO {
+public class ProduitDAO_Oracle implements I_ProduitDAO {
 
 	/* ATTRIBUTS */
 
@@ -35,20 +35,22 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	/* METHODES */
 
 	/** Initialise la connexion à la base de données. */
-	public ProduitDAO_SQL()
+	public ProduitDAO_Oracle()
 	{
 		this.conn = ConnexionDAO_Oracle.getInstance().getConnexion();
 	}
 
 	@Override
-	public boolean create(I_Produit p){
-		String sql = "INSERT INTO Produits(nom, prixHT, quantite) VALUES (?,?,?)";
+	public boolean create(I_Produit p,String nomCatalogue){
+		String sql = "INSERT INTO Produits(nom, prixHT, quantite, nom_catalogue) VALUES (?,?,?,?)";
 		try 
 		{
+			System.out.println("ok");
 			prepstat = this.conn.prepareStatement(sql);
 			prepstat.setString(1, p.getNom());
 			prepstat.setDouble(2, p.getPrixUnitaireHT());
 			prepstat.setInt(3, p.getQuantite());
+			prepstat.setString(4, nomCatalogue);
 			prepstat.executeUpdate();
 
 			return true;
@@ -106,12 +108,12 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 
 	@Override
 	public boolean addQuantite(String nom, int qte) {
-		return majQuantiteProduit(nom, qte, ProduitDAO_SQL.AJOUT);
+		return majQuantiteProduit(nom, qte, ProduitDAO_Oracle.AJOUT);
 	}
 
 	@Override
 	public boolean removeQuantite(String nom, int qte) {
-		return majQuantiteProduit(nom, qte, ProduitDAO_SQL.RETRAIT);
+		return majQuantiteProduit(nom, qte, ProduitDAO_Oracle.RETRAIT);
 	}
 
 	/**
