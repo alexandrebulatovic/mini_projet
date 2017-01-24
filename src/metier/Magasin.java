@@ -17,7 +17,7 @@ public class Magasin implements I_Magasin {
 	public Magasin() {
 		this.lesCatalogues = new ArrayList<I_Catalogue>();
 	}
-	
+
 	@Override
 	public boolean addCatalogue(I_Catalogue catalogue) {
 		if ( this.existe(catalogue) )
@@ -31,7 +31,7 @@ public class Magasin implements I_Magasin {
 			return true;
 		}
 	}
-	
+
 	private boolean existe(I_Catalogue catalogue) {
 
 		for (int i=0; i < lesCatalogues.size(); i++){
@@ -42,17 +42,17 @@ public class Magasin implements I_Magasin {
 		}
 		return false;
 	}
-	
+
 	@Override
-	public int addCatalogues(List<I_Catalogue> liste) 
+	public int addCatalogues(List<I_Catalogue> catalogues) 
 	{
 		int catalogues_rajoutes = 0;
 
-		if (liste != null) {
+		if (catalogues != null) {
 
-			for (int i=0; i < liste.size() ; i++)
+			for (int i=0; i < catalogues.size() ; i++)
 			{
-				if (this.addCatalogue(liste.get(i)))
+				if (this.addCatalogue(catalogues.get(i)))
 					catalogues_rajoutes++;
 			}
 		}
@@ -78,51 +78,45 @@ public class Magasin implements I_Magasin {
 		this.avertir();
 		return trouve;
 	}
-	
+
 	@Override
 	public String[] getNomCatalogues() {
 
 		int taille = this.lesCatalogues.size();
 		System.out.println(taille);
 		String[] tabNomCatalogues = new String[taille];
-		System.out.println("lka");
 		for (int i = 0; i < taille; i++){
 			tabNomCatalogues[i] = this.lesCatalogues.get(i).getNom();
-			System.out.println(this.lesCatalogues.get(i).getNom());
 		}
 		Arrays.sort(tabNomCatalogues); // tri du tableau
-		
+
 		return tabNomCatalogues;
 	}
-	
+
 	@Override
 	public List<I_Catalogue> getListeCatalogues() {
 		return lesCatalogues;
 	}
-	
+
 	@Override
 	public void clear() {
 		this.lesCatalogues.clear();
 	}
-	
+
 	public void attacher(Observateur o){
 		this.auditeurs.add(o);
 	}
-	
+
 	private void avertir(){
 		for(int i=0; i<this.auditeurs.size();i++){
-			this.auditeurs.get(i).mettreAJour(this);
+			this.auditeurs.get(i).mettreAJour();
 		}
 	}
-	
-	public int getNbCatalogues(){
-		return this.lesCatalogues.size();
-	}
-	
+
 	public String[] getDetailsCatalogues(){
 		String[] details = new String[this.lesCatalogues.size()];
 		for (int i=0; i < this.lesCatalogues.size(); i++){
-			details[i]= this.lesCatalogues.get(i).getNom() + " : " + this.lesCatalogues.get(i).getNbProduit() + " Produits";
+			details[i]= this.lesCatalogues.get(i).getNom();
 		}
 		return details;
 	}

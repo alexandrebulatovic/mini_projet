@@ -1,3 +1,11 @@
+DROP TABLE Produits;
+
+DROP TABLE Catalogues;
+
+DROP SEQUENCE id_catalogue_sequence;
+
+DROP SEQUENCE id_produit_sequence;
+
 CREATE TABLE Catalogues
 (
 id_catalogue INT NOT NULL,
@@ -14,7 +22,7 @@ prixHT FLOAT NOT NULL,
 quantite INT NOT NULL,
 nom_catalogue VARCHAR(255) NOT NULL,
 CONSTRAINT pk_produit PRIMARY KEY (id_produit),
-CONSTRAINT fk_produit_catalogue FOREIGN KEY (nom_catalogue) REFERENCES Catalogues(nom)
+CONSTRAINT fk_produit_catalogue FOREIGN KEY (nom_catalogue) REFERENCES Catalogues(nom) ON DELETE CASCADE
 )
 
 CREATE SEQUENCE id_catalogue_sequence;

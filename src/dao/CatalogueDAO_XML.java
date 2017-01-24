@@ -36,4 +36,16 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 		return null;
 	}
 
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int findNbProduits(String string) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

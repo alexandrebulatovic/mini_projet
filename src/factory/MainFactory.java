@@ -1,4 +1,4 @@
-package dao;
+package factory;
 
 public class MainFactory {
 	/* ATTRIBUTS */
@@ -14,17 +14,17 @@ public class MainFactory {
 	/* METHODES */
 	protected MainFactory() {}
 
-	
+
 	public static I_DAOFactory createDAO(int dao_type){
-	switch (dao_type){
-	case TYPE_XML:
-		return new XMLFactory();
-	case TYPE_SQL:
-		return new OracleFactory();
-	default:
-		throw new IllegalArgumentException("le type choisi n'existe pas");
+		switch (dao_type){
+		case TYPE_XML:
+			return new XMLFactory();
+		case TYPE_SQL:
+			return new OracleFactory();
+		default:
+			throw new IllegalArgumentException("le type choisi n'existe pas");
+		}
 	}
-}
-	
-	
+
+
 }

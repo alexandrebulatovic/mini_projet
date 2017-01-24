@@ -1,9 +1,8 @@
 package application;
 
 import presentation.FenetrePrincipale;
-import dao.I_DAOFactory;
 import dao.I_ProduitDAO;
-import dao.MainFactory;
+import factory.MainFactory;
 import metier.Catalogue;
 import metier.I_Catalogue;
 
@@ -53,10 +52,5 @@ public class ControleurPrincipal {
 
 	public ControleurAchatVente getControleurAchatVente() {
 		return this.controleur_achat_vente;
-	}
-
-	/** Ferme la connexion à la base de données. */
-	public void disconnect() {
-		this.dao.disconnect();
 	}
 }

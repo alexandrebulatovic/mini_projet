@@ -1,7 +1,6 @@
 package main;
 
 import application.ControleurAccueil;
-import application.ControleurPrincipal;
 
 /** Permet de lancer le programme. */
 

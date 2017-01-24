@@ -24,7 +24,6 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 		this.xml_dao = new ProduitDAO_XML();
 	}
 
-	@Override
 	public boolean create(I_Produit p) {
 		return this.xml_dao.creer(p);
 	}
@@ -36,7 +35,6 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 		return this.xml_dao.supprimer(produit);
 	}
 
-	@Override
 	public List<I_Produit> findAll() {
 		return this.xml_dao.lireTous();
 	}
@@ -84,6 +82,16 @@ public class ProduitDAO_XML_Adapted implements I_ProduitDAO{
 		return this.xml_dao.lire(nom);
 	}
 
+
 	@Override
-	public void disconnect() {}
+	public boolean create(I_Produit p, String catalogue) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<I_Produit> findAll(String catalogue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

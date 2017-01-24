@@ -58,7 +58,7 @@ public interface I_Catalogue {
 
 	/**	Efface tous les produits du catalogue. */
 	public abstract void clear();
-	
+
 	public abstract String getNom();
 
 	public abstract int getNbProduit();

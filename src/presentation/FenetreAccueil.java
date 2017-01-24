@@ -5,9 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import application.ControleurAccueil;
-import application.ControleurPrincipal;
-import metier.Magasin;
+import useful.FieldsKeyAdapter;
 
+@SuppressWarnings("serial")
 public class FenetreAccueil extends JFrame implements ActionListener, Observateur {
 
 	private JButton btAjouter, btSupprimer, btSelectionner;
@@ -16,6 +16,8 @@ public class FenetreAccueil extends JFrame implements ActionListener, Observateu
 	private JComboBox cmbSupprimer, cmbSelectionner;
 	private TextArea taDetailCatalogues;
 	private ControleurAccueil controleur_accueil;
+	FieldsKeyAdapter intKey = new FieldsKeyAdapter("int");
+	FieldsKeyAdapter stringKey = new FieldsKeyAdapter("String");
 
 	public FenetreAccueil(ControleurAccueil controleur_accueil) {
 		setTitle("Catalogues");
@@ -48,6 +50,7 @@ public class FenetreAccueil extends JFrame implements ActionListener, Observateu
 
 		panAjouter.add(new JLabel("Ajouter un catalogue : "));
 		txtAjouter = new JTextField(10);
+		this.txtAjouter.addKeyListener(stringKey);
 		panAjouter.add(txtAjouter);
 		btAjouter = new JButton("Ajouter");
 		panAjouter.add(btAjouter);
@@ -111,12 +114,13 @@ public class FenetreAccueil extends JFrame implements ActionListener, Observateu
 		}
 		if (e.getSource() == btSelectionner)
 		{
-			String texteSelection = (String)cmbSupprimer.getSelectedItem();
+			String texteSelection = (String)cmbSelectionner.getSelectedItem();
 			if (texteSelection != null) 
 			{
-				this.controleur_accueil.selectCatalogue(texteSelection);
 				System.out.println("selectionne catalogue "+texteSelection);
-				this.dispose();
+				this.controleur_accueil.selectCatalogue(texteSelection);
+				
+				//this.dispose();
 			}
 		}	
 	}
@@ -146,11 +150,22 @@ public class FenetreAccueil extends JFrame implements ActionListener, Observateu
 	}
 
 	@Override
-	public void mettreAJour(Magasin magasin) {
+	public void mettreAJour() {
 		String[] tab = this.controleur_accueil.getNomCatalogue();
 		modifierListesCatalogues(tab);
-		modifierDetailCatalogues(tab);
+		String[] tab2 = this.controleur_accueil.getDetailsCatalogue();
+		modifierDetailCatalogues(tab2);
 		modifierNbCatalogues(tab.length);
+	}
+	
+	private void fermerApplication() {
+		this.controleur_accueil.disconnect();
+		System.out.println("Au revoir");
+		System.exit(0);
+	}
+	
+	public void windowClosing(WindowEvent e) {
+		this.fermerApplication();
 	}
 	}
 

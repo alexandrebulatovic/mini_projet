@@ -3,36 +3,29 @@ package application;
 import java.util.List;
 
 import dao.I_CatalogueDAO;
-import dao.I_DAOFactory;
-import dao.MainFactory;
+import factory.MainFactory;
 import metier.Catalogue;
 import metier.I_Magasin;
 import metier.I_Catalogue;
 import metier.Magasin;
-import metier.Catalogue;
 import presentation.FenetreAccueil;
-import presentation.FenetrePrincipale;
 
 public class ControleurAccueil {
-	/** Le {@code Catalogue} en cours d'utilisation. */
+
+	/** Le {@code Magasin} en cours d'utilisation. */
 	private I_Magasin magasin;
 
 	/** Le {@code CatalogueDAO} en cours d'utilisation. */
 	private I_CatalogueDAO dao;
-	
-	private ControleurPrincipal controleur_principal;
-	
+
 	public ControleurAccueil(){
 		this.magasin= new Magasin();
 		this.dao = MainFactory.createDAO(MainFactory.TYPE_SQL).createCatalogueDAO();
 		this.remplirCatalogues();
 		FenetreAccueil f = new FenetreAccueil(this);
 		this.magasin.attacher(f);
-		
-		
-		
 	}
-	
+
 	/**
 	 * Ajoute un catalogue au {@code Catalogue}.
 	 * @param nom : nom du catalogue.
@@ -42,7 +35,6 @@ public class ControleurAccueil {
 	public void addCatalogue(String nom) 
 	{
 		Catalogue catalogue = new Catalogue(nom);
-
 		if (this.magasin.addCatalogue(catalogue))
 			this.dao.create(catalogue);
 	}
@@ -74,17 +66,25 @@ public class ControleurAccueil {
 	public String[] getNomCatalogue(){
 		return this.magasin.getNomCatalogues();
 	}
-	
+
 	public void selectCatalogue(String nom){
-		this.controleur_principal=new ControleurPrincipal(nom);
+		new ControleurPrincipal(nom);
 	}
-	
+
 	public I_Magasin getMagasin(){
 		return this.magasin;
 	}
 
 	public String[] getDetailsCatalogue() {
-		return this.magasin.getDetailsCatalogues();
+		String[] details =  this.magasin.getDetailsCatalogues();
+		for (int i=0; i < details.length; i++){
+			details[i] = details[i] + " : " + this.dao.findNbProduits(details[i]) + " Produits";
+		}
+		return details;
+	}
+
+	public void disconnect() {
+		this.dao.disconnect();
 	}
 
 

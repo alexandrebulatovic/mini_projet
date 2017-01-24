@@ -31,7 +31,7 @@ public interface I_Magasin {
 	public abstract void clear();
 
 	public abstract void attacher(Observateur o);
-	
+
 	public abstract String[] getDetailsCatalogues();
 
 }
