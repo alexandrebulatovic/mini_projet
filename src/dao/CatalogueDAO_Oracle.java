@@ -138,7 +138,6 @@ public class CatalogueDAO_Oracle implements I_CatalogueDAO{
 		}
 	}
 
-	@Override
 	public void disconnect() {
 		ConnexionDAO_Oracle.fermerConnexion();
 

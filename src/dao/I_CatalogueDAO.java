@@ -27,9 +27,7 @@ public interface I_CatalogueDAO {
 	 *  @return un objet {@code List} contenant tous les nom des catalogues. */
 	public abstract List<String> findAllNames();
 
-
-	/** Se déconnecte de la base de données. */
-	public abstract void disconnect();
-
 	public abstract int findNbProduits(String string);
+
+	public abstract void disconnect();
 }
