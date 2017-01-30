@@ -33,10 +33,11 @@ public class ControleurAchatVente {
 	 */
 	public boolean acheterStock(String nom, int qteAchetee){
 
-		if (this.catalogue.acheterStock(nom, qteAchetee) && this.dao.addQuantite(nom, qteAchetee))
+		if (this.catalogue.acheterStock(nom, qteAchetee) && this.dao.addQuantite(nom,this.catalogue.getNom(), qteAchetee))
 			return true;
 		else
 			return false;
+
 	}
 
 	/**
@@ -47,9 +48,10 @@ public class ControleurAchatVente {
 	 */
 	public boolean vendreStock(String nom, int qteVendue){
 
-		if (this.catalogue.vendreStock(nom, qteVendue) && this.dao.removeQuantite(nom, qteVendue))
+		if (this.catalogue.vendreStock(nom, qteVendue) && this.dao.removeQuantite(nom,this.catalogue.getNom(), qteVendue))
 			return true;
 		else
 			return false;
+
 	}
 }

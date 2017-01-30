@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import application.ControleurCatalogue;
+import useful.FieldsKeyAdapter;
 
 public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
@@ -14,7 +15,8 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 //	private JComboBox<String> combo;
 	private JButton btValider;
 	private ControleurCatalogue cc;
-	
+	FieldsKeyAdapter intKey = new FieldsKeyAdapter("int");
+	FieldsKeyAdapter stringKey = new FieldsKeyAdapter("String");
 
 //	public FenetreNouveauProduit(String[] lesCategories) {
 	public FenetreNouveauProduit(ControleurCatalogue cc) {	
@@ -27,16 +29,19 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
 		JLabel labNom = new JLabel("Nom produit");
 		JLabel labPrixHT = new JLabel("Prix Hors Taxe");
-		JLabel labQte = new JLabel("Quantit� en stock");
+		JLabel labQte = new JLabel("Quantité en stock");
 //		JLabel labCategorie = new JLabel("Categorie");
 		contentPane.add(labNom);
 		txtNom = new JTextField(15);
+		this.txtNom.addKeyListener(stringKey);
 		contentPane.add(txtNom);
 		contentPane.add(labPrixHT);
 		txtPrixHT = new JTextField(15);
+		this.txtPrixHT.addKeyListener(intKey);
 		contentPane.add(txtPrixHT);
 		contentPane.add(labQte);
 		txtQte = new JTextField(15);
+		this.txtQte.addKeyListener(intKey);
 		contentPane.add(txtQte);
 
 //		combo = new JComboBox<String>(lesCategories);

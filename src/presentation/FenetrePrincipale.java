@@ -33,7 +33,6 @@ WindowListener {
 		this.controleur_catalogue = controleur_principal.getControleurCatalogue();
 		this.controleur_stock = controleur_principal.getControleurStocks();
 		this.controleur_achats_ventes = controleur_principal.getControleurAchatVente();
-
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
 		JPanel panAffichage = new JPanel();
@@ -104,14 +103,12 @@ WindowListener {
 		if (e.getSource() == btVente)
 			new FenetreVente(this.controleur_achats_ventes,this.controleur_catalogue.getNomProduits());
 		if (e.getSource() == btQuitter){
-			fermerApplication();
+			this.dispose();
 		}	
 	}
 
 
-	public void windowClosing(WindowEvent arg0) {
-		fermerApplication();
-	}
+
 	public void windowActivated(WindowEvent arg0) {}
 	public void windowClosed(WindowEvent arg0) {}
 	public void windowDeactivated(WindowEvent arg0) {}
@@ -119,9 +116,9 @@ WindowListener {
 	public void windowIconified(WindowEvent arg0) {}
 	public void windowOpened(WindowEvent arg0) {}
 
-	private void fermerApplication() {
-		this.controleur_principal.disconnect();
-		System.out.println("Au revoir");
-		System.exit(0);
+	@Override
+	public void windowClosing(WindowEvent e) {
+		
 	}
+
 }

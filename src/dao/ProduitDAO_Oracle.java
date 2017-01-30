@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+//import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +17,13 @@ import metier.Produit;
  * @see I_ProduitDAO
  */
 
-public class ProduitDAO_SQL implements I_ProduitDAO {
+public class ProduitDAO_Oracle implements I_ProduitDAO {
 
 	/* ATTRIBUTS */
 
 	private Connection conn;
 	private PreparedStatement prepstat;
-	private Statement stat;
+	//private Statement stat;
 	private ResultSet rs;
 
 	/** Correspond à l'opérateur d'addition.*/
@@ -35,24 +35,22 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	/* METHODES */
 
 	/** Initialise la connexion à la base de données. */
-	public ProduitDAO_SQL()
+	public ProduitDAO_Oracle()
 	{
 		this.conn = ConnexionDAO_Oracle.getInstance().getConnexion();
 	}
 
 	@Override
-	public boolean create(I_Produit p){
-		String sql = "INSERT INTO Produits(nom, prixHT, quantite) VALUES (?,?,?)";
-		try 
-		{
+	public boolean create(I_Produit p,String nomCatalogue){
+		String sql = "INSERT INTO Produits(nom, prixHT, quantite, nom_catalogue) VALUES (?,?,?,?)";
+		try {
 			prepstat = this.conn.prepareStatement(sql);
 			prepstat.setString(1, p.getNom());
 			prepstat.setDouble(2, p.getPrixUnitaireHT());
 			prepstat.setInt(3, p.getQuantite());
+			prepstat.setString(4, nomCatalogue);
 			prepstat.executeUpdate();
-
 			return true;
-
 		} catch (SQLException e) {
 			System.out.println("erreur creation produit");
 			return false;
@@ -62,19 +60,17 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	@Override
 	public I_Produit findByName(String nom) {
 		String sql = "SELECT * FROM Produits WHERE nom = ?";
-
 		I_Produit produit;
-
 		try {
 			prepstat = this.conn.prepareStatement(sql);
 			prepstat.setString(1, nom);
-			rs = prepstat.executeQuery(sql);
-
+			rs = prepstat.executeQuery();
+	
 			if (rs.next())
 				produit = new Produit(rs.getString(2), rs.getDouble(3), rs.getInt(4));
 			else
 				return null;
-
+	
 			return produit;
 		} catch (SQLException e) {
 			System.out.println("erreur recuperation produit");
@@ -83,15 +79,17 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	}
 
 	@Override
-	public List<I_Produit> findAll()
+	public List<I_Produit> findAll(String catalogue)
 	{
-		String sql = "SELECT * FROM Produits";
+		String sql = "SELECT * FROM Produits WHERE nom_catalogue = ?";
 		List<I_Produit> produits = new ArrayList<I_Produit>();
-
 		try {
-			stat = this.conn.createStatement();
-			rs = stat.executeQuery(sql);
-
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setString(1, catalogue);
+			System.out.println("catalogue : " + catalogue);
+			System.out.println("SQL : " + sql);
+			rs = prepstat.executeQuery();
+	
 			while(rs.next())
 			{
 				I_Produit p = new Produit(rs.getString(2), rs.getDouble(3), rs.getInt(4));
@@ -105,13 +103,27 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	}
 
 	@Override
-	public boolean addQuantite(String nom, int qte) {
-		return majQuantiteProduit(nom, qte, ProduitDAO_SQL.AJOUT);
+	public boolean addQuantite(String nom,String catalogue, int qte) {
+		return UpdateQuantiteProduit(nom, qte, ProduitDAO_Oracle.AJOUT);
 	}
 
 	@Override
-	public boolean removeQuantite(String nom, int qte) {
-		return majQuantiteProduit(nom, qte, ProduitDAO_SQL.RETRAIT);
+	public boolean removeQuantite(String nom,String catalogue, int qte) {
+		return UpdateQuantiteProduit(nom, qte, ProduitDAO_Oracle.RETRAIT);
+	}
+
+	@Override
+	public boolean delete(String nom,String nomCatalogue) {
+		String sql = "DELETE FROM Produits WHERE nom = ?";
+		try {
+			prepstat = this.conn.prepareStatement(sql);
+			prepstat.setString(1, nom);
+			prepstat.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("erreur suppression produit");
+			return false;
+		}
 	}
 
 	/**
@@ -122,41 +134,18 @@ public class ProduitDAO_SQL implements I_ProduitDAO {
 	 * {@code ProduitDAO_SQL.RETRAIT}.
 	 * @return Vrai si la mise à jour a réussi, faux sinon.
 	 */
-	private boolean majQuantiteProduit(String nom, int qte, char operation) {
+	private boolean UpdateQuantiteProduit(String nom, int qte, char operation) {
 		String sql = "UPDATE Produits SET quantite = quantite "+ operation + "? WHERE nom = ?";
 		try {
 			prepstat = this.conn.prepareStatement(sql);
-
 			prepstat.setInt(1, qte);
 			prepstat.setString(2, nom);
 			prepstat.executeUpdate();
 			return true;
-
 		} catch (SQLException e) {
 			System.out.println("erreur maj quantite produit");
 			return false;
 		}
 	}
 
-	@Override
-	public boolean delete(String nom) {
-		String sql = "DELETE FROM Produits WHERE nom = ?";
-
-		try {
-			prepstat = this.conn.prepareStatement(sql);
-
-			prepstat.setString(1, nom);
-			prepstat.executeUpdate();
-			return true;
-
-		} catch (SQLException e) {
-			System.out.println("erreur suppression produit");
-			return false;
-		}
-	}
-
-	@Override
-	public void disconnect() {
-		ConnexionDAO_Oracle.fermerConnexion();
-	}
 }

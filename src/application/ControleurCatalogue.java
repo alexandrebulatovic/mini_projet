@@ -47,10 +47,13 @@ public class ControleurCatalogue {
 	{
 		I_Produit p = new Produit(nom, prix, qte);
 
-		if (this.catalogue.addProduit(p) && this.dao.create(p))
-			return true;
-		else 
+		
+		if (this.catalogue.addProduit(p) && this.dao.create(p,this.catalogue.getNom())){
+			return true
+		} else {
 			return false;
+		}
+
 	}
 
 	/**
@@ -60,10 +63,11 @@ public class ControleurCatalogue {
 	 */
 	public boolean removeProduit(String nom)
 	{
-		if (this.catalogue.removeProduit(nom) && this.dao.delete(nom))
+		if (this.catalogue.removeProduit(nom) && this.dao.delete(nom,this.catalogue.getNom())
 			return true;
 		else
 			return false;
+
 	}
 
 	/**
@@ -71,8 +75,7 @@ public class ControleurCatalogue {
 	 * @see Catalogue
 	 */
 	public void remplirCatalogue() {
-		List<I_Produit> listeProduits = this.dao.findAll();
-
+		List<I_Produit> listeProduits = this.dao.findAll(this.catalogue.getNom());
 		this.catalogue.addProduits(listeProduits);
 	}
 

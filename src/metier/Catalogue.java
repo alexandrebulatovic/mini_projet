@@ -20,20 +20,22 @@ public class Catalogue implements I_Catalogue {
 
 	private List<I_Produit> lesProduits;
 
+	private String nom;
 	/* METHODES */
 
-	public Catalogue() {
+	public Catalogue(String nom) 
+	{
 		this.lesProduits = new ArrayList<I_Produit>();
+		this.nom=nom;
 	}
 
 	@Override
-	public boolean addProduit(I_Produit produit) {
+	public boolean addProduit(I_Produit produit) 
+	{
 		if ( this.existe(produit) || !(this.check(produit)) )
 		{
 			return false;
-		}
-		else {
-
+		} else {
 			this.lesProduits.add(produit);
 			return true;
 		}
@@ -41,23 +43,21 @@ public class Catalogue implements I_Catalogue {
 
 
 	@Override
-	public boolean addProduit(String nom, double prixHT, int qte) {
-
-		I_Produit produit = new Produit(nom, prixHT, qte);
-
+	public boolean addProduit(String nom, double prixHT, int quantite) 
+	{
+		I_Produit produit = new Produit(nom, prixHT, quantite);
 		return this.addProduit(produit);
 	}
 
 	@Override
-	public int addProduits(List<I_Produit> liste) 
+	public int addProduits(List<I_Produit> produits) 
 	{
 		int produits_rajoutes = 0;
 
-		if (liste != null) {
-
-			for (int i=0; i < liste.size() ; i++)
+		if (produits != null) {
+			for (int i=0; i < produits.size() ; i++)
 			{
-				if (this.addProduit(liste.get(i)))
+				if (this.addProduit(produits.get(i)))
 					produits_rajoutes++;
 			}
 		}
@@ -65,21 +65,21 @@ public class Catalogue implements I_Catalogue {
 	}
 
 	@Override
-	public boolean removeProduit(String nom) {
-
+	public boolean removeProduit(String nom) 
+	{
 		boolean trouve = false;
 
 		if (nom != null)
 		{
 			for (int i=0; i < this.lesProduits.size() && !trouve ; i++)
 			{
-				if (this.lesProduits.get(i).getNom().equals(nom)){
+				if (this.lesProduits.get(i).getNom().equals(nom))
+				{
 					this.lesProduits.remove(i);
 					trouve = true;
 				}
 			}
 		}
-
 		return trouve;
 	}
 
@@ -129,6 +129,10 @@ public class Catalogue implements I_Catalogue {
 		}
 
 		return null;
+	}
+
+	public String getNom() {
+		return nom;
 	}
 
 	@Override
@@ -232,5 +236,10 @@ public class Catalogue implements I_Catalogue {
 	@Override
 	public void clear() {
 		this.lesProduits.clear();
+	}
+
+	@Override
+	public int getNbProduit() {
+		return this.lesProduits.size();
 	}
 }

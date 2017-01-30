@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import application.ControleurAchatVente;
 import application.ControleurCatalogue;
+import useful.FieldsKeyAdapter;
 
 public class FenetreVente extends JFrame implements ActionListener {
 
@@ -13,7 +14,8 @@ public class FenetreVente extends JFrame implements ActionListener {
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
 	private ControleurAchatVente cav;
-
+	FieldsKeyAdapter intKey = new FieldsKeyAdapter("int");
+	FieldsKeyAdapter stringKey = new FieldsKeyAdapter("String");
 	public FenetreVente(ControleurAchatVente cav,String[] lesProduits) {
 		this.cav = cav;
 		setTitle("Vente");
@@ -22,6 +24,7 @@ public class FenetreVente extends JFrame implements ActionListener {
 		contentPane.setLayout(new FlowLayout());
 		btVente = new JButton("Vente");
 		txtQuantite = new JTextField(5);
+		this.txtQuantite.addKeyListener(intKey);
 		txtQuantite.setText("0");
 
 		combo = new JComboBox<String>(lesProduits);
