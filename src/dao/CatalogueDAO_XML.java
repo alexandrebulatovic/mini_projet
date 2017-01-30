@@ -20,6 +20,7 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 	private String uri = "Catalogues.xml";
 	private Document doc;
 	
+
 	
 	public CatalogueDAO_XML()
 	{
@@ -37,7 +38,8 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 		try {
 			Element root = doc.getRootElement();
 			Element cat = new Element("catalogue");
-			cat.setAttribute("nom", catalogue.getNom());
+			Element nom = new Element("nomCatalogue");
+			cat.addContent(nom.setText(String.valueOf(catalogue.getNom())));
 			root.addContent(cat);
 			return save();
 		} catch (Exception e) {
@@ -50,15 +52,39 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 	public boolean delete(String nom) {
 		try {
 			Element root = doc.getRootElement();
-			Element cat = (Element)findByName(nom);
+			System.out.println("a");
+			Element cat = find(nom);
+			System.out.println("b");
 			if (cat != null) {
+				System.out.println("c");
 				root.removeContent(cat);
+				System.out.println("d");
 				return save();
 			} else
 				return false;
 		} catch (Exception e) {
 			System.out.println("erreur supprimer catalogue");
 			return false;
+		}
+	}
+	
+	private Element find(String nom){
+		Element root = doc.getRootElement();
+		System.out.println("1");
+		@SuppressWarnings("unchecked")
+		List<Element> lCat = root.getChildren("catalogue");
+		System.out.println("1");
+		int i = 0;
+		while (i < lCat.size() && !lCat.get(i).getChild("nomCatalogue").getText().equals(nom)){
+			System.out.println("3" + i);
+			i++;
+		}
+		if (i < lCat.size()){
+			System.out.println("4");
+			return lCat.get(i);
+		}else{
+			System.out.println("4error");
+			return null;
 		}
 	}
 
@@ -71,7 +97,7 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 			List<Element> lCat = root.getChildren("catalogue");
 
 			for (Element catalogue : lCat) {
-				String nomCatalogue = catalogue.getAttributeValue("nom");
+				String nomCatalogue = catalogue.getChild("nomCatalogue").getText();
 				l.add(new Catalogue(nomCatalogue));
 			}
 		} catch (Exception e) {
@@ -83,16 +109,25 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 	@Override
 	public I_Catalogue findByName(String nom) {
 		Element root = doc.getRootElement();
+		System.out.println("1");
 		@SuppressWarnings("unchecked")
 		List<Element> lCat = root.getChildren("catalogue");
+		System.out.println("1");
 		int i = 0;
-		while (i < lCat.size() && !lCat.get(i).getAttributeValue("nom").equals(nom))
+		while (i < lCat.size() && !lCat.get(i).getChild("nomCatalogue").getText().equals(nom)){
+			System.out.println("3" + i);
 			i++;
-		if (i < lCat.size())
+		}
+		if (i < lCat.size()){
+			System.out.println("4");
 			return (I_Catalogue)lCat.get(i);
-		else
+		}else{
+			System.out.println("4error");
 			return null;
+		}
 	}
+	
+	
 
 	@Override
 	public List<String> findAllNames() {
@@ -103,7 +138,7 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 			List<Element> lCat = root.getChildren("catalogue");
 
 			for (Element catalogue : lCat) {
-				String nomCatalogue = catalogue.getAttributeValue("nom");
+				String nomCatalogue = catalogue.getAttributeValue("nomCatalogue");
 				l.add(nomCatalogue);
 			}
 		} catch (Exception e) {
@@ -121,7 +156,7 @@ public class CatalogueDAO_XML implements I_CatalogueDAO{
 			@SuppressWarnings("unchecked")
 			List<Element> lCat = root.getChildren("catalogue");
 			int i= 0;
-			while (i < lCat.size() && !lCat.get(i).getAttributeValue("nom").equals(string)){
+			while (i < lCat.size() && !lCat.get(i).getChild("nomCatalogue").getText().equals(string)){
 				i++;
 			}
 			Element e = lCat.get(i);

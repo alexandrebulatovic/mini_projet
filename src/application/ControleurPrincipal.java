@@ -33,7 +33,7 @@ public class ControleurPrincipal {
 	public ControleurPrincipal(String nom) 
 	{
 		this.catalogue = new Catalogue(nom);
-		this.dao = MainFactory.createDAO(MainFactory.TYPE_SQL).createProduitDAO();
+		this.dao = MainFactory.createDAO(MainFactory.TYPE_XML).createProduitDAO();
 
 		this.controleur_catalogue = new ControleurCatalogue(this.catalogue, this.dao);
 		this.controleur_stocks = new ControleurStocks(this.catalogue, this.dao);

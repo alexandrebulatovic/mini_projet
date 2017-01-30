@@ -35,9 +35,10 @@ public class Magasin implements I_Magasin {
 	private boolean existe(I_Catalogue catalogue) {
 
 		for (int i=0; i < lesCatalogues.size(); i++){
-
-			if (lesCatalogues.get(i).getNom().equals(catalogue.getNom())){
-				return true;
+			if(lesCatalogues.get(i).getNom()!=null){
+				if (lesCatalogues.get(i).getNom().equals(catalogue.getNom())){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -87,6 +88,7 @@ public class Magasin implements I_Magasin {
 		String[] tabNomCatalogues = new String[taille];
 		for (int i = 0; i < taille; i++){
 			tabNomCatalogues[i] = this.lesCatalogues.get(i).getNom();
+			System.out.println(tabNomCatalogues[i]);
 		}
 		Arrays.sort(tabNomCatalogues); // tri du tableau
 

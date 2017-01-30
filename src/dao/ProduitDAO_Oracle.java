@@ -103,17 +103,17 @@ public class ProduitDAO_Oracle implements I_ProduitDAO {
 	}
 
 	@Override
-	public boolean addQuantite(String nom, int qte) {
-		return majQuantiteProduit(nom, qte, ProduitDAO_Oracle.AJOUT);
+	public boolean addQuantite(String nom,String catalogue, int qte) {
+		return UpdateQuantiteProduit(nom, qte, ProduitDAO_Oracle.AJOUT);
 	}
 
 	@Override
-	public boolean removeQuantite(String nom, int qte) {
-		return majQuantiteProduit(nom, qte, ProduitDAO_Oracle.RETRAIT);
+	public boolean removeQuantite(String nom,String catalogue, int qte) {
+		return UpdateQuantiteProduit(nom, qte, ProduitDAO_Oracle.RETRAIT);
 	}
 
 	@Override
-	public boolean delete(String nom) {
+	public boolean delete(String nom,String nomCatalogue) {
 		String sql = "DELETE FROM Produits WHERE nom = ?";
 		try {
 			prepstat = this.conn.prepareStatement(sql);
@@ -134,7 +134,7 @@ public class ProduitDAO_Oracle implements I_ProduitDAO {
 	 * {@code ProduitDAO_SQL.RETRAIT}.
 	 * @return Vrai si la mise à jour a réussi, faux sinon.
 	 */
-	private boolean majQuantiteProduit(String nom, int qte, char operation) {
+	private boolean UpdateQuantiteProduit(String nom, int qte, char operation) {
 		String sql = "UPDATE Produits SET quantite = quantite "+ operation + "? WHERE nom = ?";
 		try {
 			prepstat = this.conn.prepareStatement(sql);

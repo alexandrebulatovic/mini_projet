@@ -57,7 +57,7 @@ public class ControleurCatalogue {
 	public void removeProduit(String nom)
 	{
 		if (this.catalogue.removeProduit(nom))
-			this.dao.delete(nom);
+			this.dao.delete(nom,this.catalogue.getNom());
 	}
 
 	/**

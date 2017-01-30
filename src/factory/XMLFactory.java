@@ -3,7 +3,7 @@ package factory;
 import dao.CatalogueDAO_XML;
 import dao.I_CatalogueDAO;
 import dao.I_ProduitDAO;
-import dao.ProduitDAO_XML_Adapted;
+import dao.ProduitDAO_XML;
 
 /**
  * Permet d'instancier le {@code ProduitDAO} sélectionné par le développeur.
@@ -30,6 +30,6 @@ public class XMLFactory implements I_DAOFactory{
 
 	@Override
 	public I_ProduitDAO createProduitDAO() {
-		return new ProduitDAO_XML_Adapted();
+		return new ProduitDAO_XML();
 	}
 }

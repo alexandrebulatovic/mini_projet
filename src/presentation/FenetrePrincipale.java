@@ -33,7 +33,6 @@ WindowListener {
 		this.controleur_catalogue = controleur_principal.getControleurCatalogue();
 		this.controleur_stock = controleur_principal.getControleurStocks();
 		this.controleur_achats_ventes = controleur_principal.getControleurAchatVente();
-		this.setAlwaysOnTop(true);
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
 		JPanel panAffichage = new JPanel();

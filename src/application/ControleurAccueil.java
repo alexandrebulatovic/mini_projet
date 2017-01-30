@@ -20,7 +20,7 @@ public class ControleurAccueil {
 
 	public ControleurAccueil(){
 		this.magasin= new Magasin();
-		this.dao = MainFactory.createDAO(MainFactory.TYPE_SQL).createCatalogueDAO();
+		this.dao = MainFactory.createDAO(MainFactory.TYPE_XML).createCatalogueDAO();
 		this.remplirCatalogues();
 		FenetreAccueil f = new FenetreAccueil(this);
 		this.magasin.attacher(f);
@@ -55,6 +55,7 @@ public class ControleurAccueil {
 	 */
 	public void remplirCatalogues() {
 		List<I_Catalogue> listeCatalogues = this.dao.findAll();
+		System.out.println(listeCatalogues.size());
 		this.magasin.addCatalogues(listeCatalogues);
 	}
 

@@ -33,7 +33,7 @@ public class ControleurAchatVente {
 	public void acheterStock(String nom, int qteAchetee){
 
 		if (this.catalogue.acheterStock(nom, qteAchetee))
-			this.dao.addQuantite(nom, qteAchetee);
+			this.dao.addQuantite(nom,this.catalogue.getNom(), qteAchetee);
 	}
 
 	/**
@@ -44,6 +44,6 @@ public class ControleurAchatVente {
 	public void vendreStock(String nom, int qteVendue){
 
 		if (this.catalogue.vendreStock(nom, qteVendue))
-			this.dao.removeQuantite(nom, qteVendue);
+			this.dao.removeQuantite(nom,this.catalogue.getNom(), qteVendue);
 	}
 }

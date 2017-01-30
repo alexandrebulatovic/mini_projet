@@ -15,7 +15,7 @@ public class FieldsKeyAdapter extends KeyAdapter{
 	public void keyTyped(KeyEvent evt) {
 		if(this.type.equals("int")){
 		char c = evt.getKeyChar();
-		if (c >= '0' && c <= '9') {
+		if ((c >= '0' && c <= '9')|| (c == '.')) {
 		} else {
 			evt.consume();
 		}
