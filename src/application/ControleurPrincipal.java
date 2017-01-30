@@ -28,7 +28,7 @@ public class ControleurPrincipal {
 	private ControleurStocks controleur_stocks;
 	/* METHODES */
 
-	/** Instancie les autres contrôleurs, le {@code DAO} et 
+	/** Lance la fenêtre principale et instancie les autres contrôleurs, le {@code DAO} et 
 	 * un {@code Catalogue} commun à tous les contrôleurs.*/
 	public ControleurPrincipal() 
 	{
@@ -36,7 +36,7 @@ public class ControleurPrincipal {
 		this.dao = DAOFactory.getInstance().createDAO(DAOFactory.TYPE_SQL);
 
 		this.controleur_catalogue = new ControleurCatalogue(this.catalogue, this.dao);
-		this.controleur_stocks = new ControleurStocks(this.catalogue, this.dao);
+		this.controleur_stocks = new ControleurStocks(this.catalogue);
 		this.controleur_achat_vente = new ControleurAchatVente(this.catalogue, this.dao);
 
 		new FenetrePrincipale(this);

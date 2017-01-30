@@ -17,6 +17,9 @@ public class DAOFactory {
 	 * le langage SQL et implémentant l'API {@code JDBC}. */
 	public static final int TYPE_SQL = 1;
 
+	/** Indique qu'on souhaite un {@code DAO} de Mock pour les tests. */
+	public static final int TYPE_MOCK = 2;
+
 	/* METHODES */
 	protected DAOFactory() {}
 
@@ -34,6 +37,8 @@ public class DAOFactory {
 			return new ProduitDAO_XML_Adapted();
 		case TYPE_SQL:
 			return new ProduitDAO_SQL();
+		case TYPE_MOCK:
+			return new MockProduitDAO();
 		default:
 			throw new IllegalArgumentException("le type choisi n'existe pas");
 		}

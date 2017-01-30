@@ -11,7 +11,7 @@ public class ControleurStocks {
 
 	private I_Catalogue catalogue;
 
-	public ControleurStocks(I_Catalogue cat, I_ProduitDAO dao){
+	public ControleurStocks(I_Catalogue cat){
 		this.catalogue=cat;
 	}
 

@@ -41,23 +41,29 @@ public class ControleurCatalogue {
 	 * @param nom : nom du produit.
 	 * @param prix : prix hors taxe du produit.
 	 * @param qte : quantité en stock du produit.
+	 * @return Vrai si l'ajout a réussi, faux sinon.
 	 */
-	public void addProduit(String nom, double prix, int qte) 
+	public boolean addProduit(String nom, double prix, int qte) 
 	{
-		Produit p = new Produit(nom, prix, qte);
+		I_Produit p = new Produit(nom, prix, qte);
 
-		if (this.catalogue.addProduit(p))
-			this.dao.create(p);
+		if (this.catalogue.addProduit(p) && this.dao.create(p))
+			return true;
+		else 
+			return false;
 	}
 
 	/**
 	 * Supprime un produit du {@code Catalogue}.
 	 * @param nom : nom du produit à supprimer.
+	 * @return Vrai si le retrait du produit a réussi, faux sinon.
 	 */
-	public void removeProduit(String nom)
+	public boolean removeProduit(String nom)
 	{
-		if (this.catalogue.removeProduit(nom))
-			this.dao.delete(nom);
+		if (this.catalogue.removeProduit(nom) && this.dao.delete(nom))
+			return true;
+		else
+			return false;
 	}
 
 	/**

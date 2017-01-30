@@ -29,21 +29,27 @@ public class ControleurAchatVente {
 	 * Met à jour le stock d'un produit.
 	 * @param nom : nom du produit à mettre à jour.
 	 * @param qteAchetee : quantité à rajouter au stock.
+	 * @return Vrai si la mise à jour du stock a réussi, faux sinon.
 	 */
-	public void acheterStock(String nom, int qteAchetee){
+	public boolean acheterStock(String nom, int qteAchetee){
 
-		if (this.catalogue.acheterStock(nom, qteAchetee))
-			this.dao.addQuantite(nom, qteAchetee);
+		if (this.catalogue.acheterStock(nom, qteAchetee) && this.dao.addQuantite(nom, qteAchetee))
+			return true;
+		else
+			return false;
 	}
 
 	/**
 	 * Met à jour le stock d'un produit.
 	 * @param nom : nom du produit à mettre à jour.
 	 * @param qteVendue : quantité à enlever du stock.
+	 * @return Vrai si la mise à jour du stock a réussi, faux sinon.
 	 */
-	public void vendreStock(String nom, int qteVendue){
+	public boolean vendreStock(String nom, int qteVendue){
 
-		if (this.catalogue.vendreStock(nom, qteVendue))
-			this.dao.removeQuantite(nom, qteVendue);
+		if (this.catalogue.vendreStock(nom, qteVendue) && this.dao.removeQuantite(nom, qteVendue))
+			return true;
+		else
+			return false;
 	}
 }

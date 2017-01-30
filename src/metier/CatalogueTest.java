@@ -7,16 +7,25 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import application.ControleurAchatVente;
+import application.ControleurCatalogue;
+import application.ControleurStocks;
+import dao.DAOFactory;
+import dao.I_ProduitDAO;
+
 
 public class CatalogueTest {
 
 	I_Catalogue cat;
+
 
 	@Before
 	public void setUp() {
 		cat = new Catalogue();
 		//		Si votre Catalogue est un Singleton, il faut changer la ligne précédente puis vider le Catalogue avec la méthode clear() comme indiqué à la ligne suivante
 		//		cat.clear();
+
+
 	}
 
 	@Test
@@ -803,11 +812,8 @@ public class CatalogueTest {
 
 	private I_Produit createProduit(String nom, double prixHT, int quantite) {
 		try {
-			return new Produit(nom,prixHT,quantite);
+			return new Produit(nom, prixHT, quantite);
 		}
 		catch (Exception e) { return null; }
 	}
 }
-
-
-
